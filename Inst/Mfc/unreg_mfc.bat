@@ -1,0 +1,1 @@
+regsvr32.exe /u mfc42.dll mfc40.dll

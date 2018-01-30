@@ -1,0 +1,26 @@
+HKCR
+{
+	GertNet.CatRegistrar.1 = s 'CatRegistrar Class'
+	{
+		CLSID = s '{840E76B2-6ADC-11D4-8FBA-00504E02C39D}'
+	}
+	GertNet.CatRegistrar = s 'CatRegistrar Class'
+	{
+		CLSID = s '{840E76B2-6ADC-11D4-8FBA-00504E02C39D}'
+		CurVer = s 'GertNet.CatRegistrar.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {840E76B2-6ADC-11D4-8FBA-00504E02C39D} = s 'CatRegistrar Class'
+		{
+			ProgID = s 'GertNet.CatRegistrar.1'
+			VersionIndependentProgID = s 'GertNet.CatRegistrar'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{86822101-0876-11D4-8EE4-00504E02C39D}'
+		}
+	}
+}

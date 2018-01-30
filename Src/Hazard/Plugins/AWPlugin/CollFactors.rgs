@@ -1,0 +1,26 @@
+HKCR
+{
+	AWPlugin.CollFactors.1 = s 'CollFactors Class'
+	{
+		CLSID = s '{2E0F6E04-A76B-11D4-9029-00504E02C39D}'
+	}
+	AWPlugin.CollFactors = s 'CollFactors Class'
+	{
+		CLSID = s '{2E0F6E04-A76B-11D4-9029-00504E02C39D}'
+		CurVer = s 'AWPlugin.CollFactors.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {2E0F6E04-A76B-11D4-9029-00504E02C39D} = s 'CollFactors Class'
+		{
+			ProgID = s 'AWPlugin.CollFactors.1'
+			VersionIndependentProgID = s 'AWPlugin.CollFactors'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{F39A15D1-9890-11D4-900E-00504E02C39D}'
+		}
+	}
+}

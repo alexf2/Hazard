@@ -1,0 +1,26 @@
+HKCR
+{
+	GertNet.Factor.1 = s 'Factor Class'
+	{
+		CLSID = s '{A754AAC4-1117-11D4-8EF2-00504E02C39D}'
+	}
+	GertNet.Factor = s 'Factor Class'
+	{
+		CLSID = s '{A754AAC4-1117-11D4-8EF2-00504E02C39D}'
+		CurVer = s 'GertNet.Factor.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {A754AAC4-1117-11D4-8EF2-00504E02C39D} = s 'Factor Class'
+		{
+			ProgID = s 'GertNet.Factor.1'
+			VersionIndependentProgID = s 'GertNet.Factor'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{86822101-0876-11D4-8EE4-00504E02C39D}'
+		}
+	}
+}

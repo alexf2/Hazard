@@ -1,0 +1,26 @@
+HKCR
+{
+	AWPlugin.CollFTables.1 = s 'CollFTables Class'
+	{
+		CLSID = s '{F39A15ED-9890-11D4-900E-00504E02C39D}'
+	}
+	AWPlugin.CollFTables = s 'CollFTables Class'
+	{
+		CLSID = s '{F39A15ED-9890-11D4-900E-00504E02C39D}'
+		CurVer = s 'AWPlugin.CollFTables.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {F39A15ED-9890-11D4-900E-00504E02C39D} = s 'CollFTables Class'
+		{
+			ProgID = s 'AWPlugin.CollFTables.1'
+			VersionIndependentProgID = s 'AWPlugin.CollFTables'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{F39A15D1-9890-11D4-900E-00504E02C39D}'
+		}
+	}
+}

@@ -1,0 +1,26 @@
+HKCR
+{
+	GertNet.CompaundFiles.1 = s 'CompaundFiles Class'
+	{
+		CLSID = s '{48118E78-0F7C-11D4-8EF1-00504E02C39D}'
+	}
+	GertNet.CompaundFiles = s 'CompaundFiles Class'
+	{
+		CLSID = s '{48118E78-0F7C-11D4-8EF1-00504E02C39D}'
+		CurVer = s 'GertNet.CompaundFiles.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {48118E78-0F7C-11D4-8EF1-00504E02C39D} = s 'CompaundFiles Class'
+		{
+			ProgID = s 'GertNet.CompaundFiles.1'
+			VersionIndependentProgID = s 'GertNet.CompaundFiles'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{86822101-0876-11D4-8EE4-00504E02C39D}'
+		}
+	}
+}

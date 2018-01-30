@@ -1,0 +1,26 @@
+HKCR
+{
+	AWPlugin.GostTable.1 = s 'GostTable Class'
+	{
+		CLSID = s '{F39A15E2-9890-11D4-900E-00504E02C39D}'
+	}
+	AWPlugin.GostTable = s 'GostTable Class'
+	{
+		CLSID = s '{F39A15E2-9890-11D4-900E-00504E02C39D}'
+		CurVer = s 'AWPlugin.GostTable.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {F39A15E2-9890-11D4-900E-00504E02C39D} = s 'GostTable Class'
+		{
+			ProgID = s 'AWPlugin.GostTable.1'
+			VersionIndependentProgID = s 'AWPlugin.GostTable'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{F39A15D1-9890-11D4-900E-00504E02C39D}'
+		}
+	}
+}

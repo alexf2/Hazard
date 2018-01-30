@@ -1,0 +1,27 @@
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+  uuid(C8D003E1-0FA6-11d4-8EF1-00504E02C39D),
+  version(1.0),
+  helpstring("CompaundFiles library")
+]
+library CompaundFiles
+{
+
+
+    [
+      dllname("ole32.dll")
+    ]
+    module ole32 {
+      [entry(239)]HRESULT _stdcall StgCreateDocfile(
+        [in]  LPWSTR pwcsName,                      
+        [in]  long grfMode,                       
+        [in]  long reserved,      
+        [out] IStorage ** ppstgOpen                         
+     );
+ 
+        
+    };
+};

@@ -1,0 +1,24 @@
+
+; Dependency file for setup wizards.
+
+[Version]
+Version=2.0.0.10
+
+; Dependencies for OtxRT.dll
+
+; Default Dependencies ----------------------------------------------
+
+
+[otxrt.dll]
+Register=$(DLLSelfRegister)
+Dest=$(WinSysPath)
+Version=2.0.0.10
+CABFilename=
+CABDefaultURL=
+CABINFFile=
+CABRunFile=
+Uses1=atl.dll
+
+[atl.dll]
+Dest=$(WinSysPath)
+Register=$(DLLSelfRegister)

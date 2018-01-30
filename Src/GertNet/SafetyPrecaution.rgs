@@ -1,0 +1,26 @@
+HKCR
+{
+	GertNet.SafetyPrecaution.1 = s 'SafetyPrecaution Class'
+	{
+		CLSID = s '{F4E48354-15DF-11D4-8EFC-00504E02C39D}'
+	}
+	GertNet.SafetyPrecaution = s 'SafetyPrecaution Class'
+	{
+		CLSID = s '{F4E48354-15DF-11D4-8EFC-00504E02C39D}'
+		CurVer = s 'GertNet.SafetyPrecaution.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {F4E48354-15DF-11D4-8EFC-00504E02C39D} = s 'SafetyPrecaution Class'
+		{
+			ProgID = s 'GertNet.SafetyPrecaution.1'
+			VersionIndependentProgID = s 'GertNet.SafetyPrecaution'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{86822101-0876-11D4-8EE4-00504E02C39D}'
+		}
+	}
+}

@@ -1,0 +1,1 @@
+regsvr32.exe todg6.ocx todgub6.dll xarraydb.ocx

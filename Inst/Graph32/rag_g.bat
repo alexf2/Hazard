@@ -1,0 +1,1 @@
+regsvr32 graph32.ocx

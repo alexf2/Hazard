@@ -1,0 +1,20 @@
+; Dependency file for setup wizards.
+
+; Dependencies for threed20.ocx
+; Sheridan ActiveThreed
+
+[Version]
+Version=2.0.4.3
+
+[THREED20.OCX]
+Dest=$(WinSysPath)
+Register=$(DLLSelfRegister)
+Version=2.0.4.3
+Uses1=msvcrt.dll
+CABFileName=THREED20.CAB
+CABDefaultURL=http://www.shersoft.com/download/cabs
+CABINFFile=THREED20.INF
+
+[MSVCRT.DLL]
+Dest=$(WinSysPathSysFile)
+

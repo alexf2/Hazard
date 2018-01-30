@@ -1,0 +1,26 @@
+HKCR
+{
+	GertNet.CollSF.1 = s 'CollSF Class'
+	{
+		CLSID = s '{88B55014-176A-11D4-8EFE-00504E02C39D}'
+	}
+	GertNet.CollSF = s 'CollSF Class'
+	{
+		CLSID = s '{88B55014-176A-11D4-8EFE-00504E02C39D}'
+		CurVer = s 'GertNet.CollSF.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {88B55014-176A-11D4-8EFE-00504E02C39D} = s 'CollSF Class'
+		{
+			ProgID = s 'GertNet.CollSF.1'
+			VersionIndependentProgID = s 'GertNet.CollSF'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{86822101-0876-11D4-8EE4-00504E02C39D}'
+		}
+	}
+}

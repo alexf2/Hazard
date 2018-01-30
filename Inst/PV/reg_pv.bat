@@ -1,0 +1,1 @@
+regsvr32.exe pvCurr.ocx pvNum.ocx pvprgbar.ocx pvTime.ocx pvTreex.ocx

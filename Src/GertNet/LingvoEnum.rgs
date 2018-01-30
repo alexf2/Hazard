@@ -1,0 +1,26 @@
+HKCR
+{
+	GertNet.LingvoEnum.1 = s 'LingvoEnum Class'
+	{
+		CLSID = s '{86822111-0876-11D4-8EE4-00504E02C39D}'
+	}
+	GertNet.LingvoEnum = s 'LingvoEnum Class'
+	{
+		CLSID = s '{86822111-0876-11D4-8EE4-00504E02C39D}'
+		CurVer = s 'GertNet.LingvoEnum.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {86822111-0876-11D4-8EE4-00504E02C39D} = s 'LingvoEnum Class'
+		{
+			ProgID = s 'GertNet.LingvoEnum.1'
+			VersionIndependentProgID = s 'GertNet.LingvoEnum'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{86822101-0876-11D4-8EE4-00504E02C39D}'
+		}
+	}
+}

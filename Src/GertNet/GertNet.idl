@@ -1,0 +1,768 @@
+// GertNet.idl : IDL source for GertNet.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (GertNet.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+
+typedef [v1_enum,  uuid(86822110-0876-11D4-8EE4-00504E02C37F), public] enum EnumCompConsts_tag {
+
+	STGM_DIRECT1 =            0x00000000L,
+	STGM_TRANSACTED1 =        0x00010000L,
+	STGM_SIMPLE1 =            0x08000000L,
+
+	STGM_READ1 =              0x00000000L,
+	STGM_WRITE1 =             0x00000001L,
+	STGM_READWRITE1 =         0x00000002L,
+
+	STGM_SHARE_DENY_NONE1 =   0x00000040L,
+	STGM_SHARE_DENY_READ1 =   0x00000030L,
+	STGM_SHARE_DENY_WRITE1 =  0x00000020L,
+	STGM_SHARE_EXCLUSIVE1 =   0x00000010L,
+
+	STGM_PRIORITY1 =          0x00040000L,
+	STGM_DELETEONRELEASE1 =   0x04000000L,
+
+	STGM_NOSCRATCH1 =         0x00100000L,
+
+
+	STGM_CREATE1 =            0x00001000L,
+	STGM_CONVERT1 =           0x00020000L,
+	STGM_FAILIFTHERE1 =       0x00000000L,
+
+	STGM_NOSNAPSHOT1 =        0x00200000L
+ } EnumCompConsts;
+
+typedef [v1_enum,  uuid(16822110-0176-1AD4-81E4-00504102C37A), public] enum STGC1_tag {
+
+	STGC_DEFAULT1 = STGC_DEFAULT,
+    STGC_OVERWRITE1 = STGC_OVERWRITE,
+    STGC_ONLYIFCURRENT1 = STGC_ONLYIFCURRENT,
+    STGC_DANGEROUSLYCOMMITMERELYTODISKCACHE1 = STGC_DANGEROUSLYCOMMITMERELYTODISKCACHE,
+    STGC_CONSOLIDATE1 = STGC_CONSOLIDATE
+	
+ } STGC1;
+
+typedef [public,  uuid(86822110-0876-11D4-8888-00504E02C37F)]  enum TrustLevel_tag {
+
+	TL_Low = 0, //6 p.
+	TL_Normal = 1,//4 p.
+	TL_High = 2 //2 p.
+
+ } TrustLevel;
+
+typedef [public,  uuid(86822110-0876-11D4-8899-00504E02C37F)]  enum ModelType_tag {
+
+	MT_Imitate,
+	MT_ImitateIndistinct,
+	MT_Analytical,
+	MT_AnalyticalIndistinct,
+	MT_Analytical2
+
+ } ModelType;
+
+typedef [public,  uuid(16022110-0876-10D4-7599-11504E02C371)]  enum OptType_tag {
+
+	OT_Quick,
+	OT_Quick2,
+	OT_Full,
+
+	OT_Integer,
+	OT_IntegerAdv
+	
+ } OptType;
+
+
+typedef [public,  uuid(16822010-0876-11D4-1299-70504E02C371)]  enum TDRFlags_tag {
+
+	TDR_Stg  = 1,
+	TDR_Strm = 2	
+
+ } TDRFlags;
+
+typedef [public,  uuid(26822019-0176-11D5-1299-50504E01C377)]  enum TStatFlag_tag {
+
+	TSF_No   = 1,
+	TSF_Yes  = 2,
+	TSF_Full = 3
+
+ } TStatFlag;
+
+ 
+
+typedef [public, v1_enum,  uuid(16822110-0876-22D5-8899-00504E02C37F)]  enum NotifyMsg_tag {
+
+	NM_OnEndOfWork  = /*WM_USER*/0x400 + 10,
+	NM_OnStepOfWork = /*WM_USER*/0x400 + 11,
+	NM_OnCancel = /*WM_USER*/0x400 + 12,
+
+	NM_OnEndOfWork2  = /*WM_USER*/0x400 + 13,
+	NM_OnStepOfWork2 = /*WM_USER*/0x400 + 14,
+
+	NM_OnEndOfWork3  = /*WM_USER*/0x400 + 15,
+	NM_OnStepOfWork3 = /*WM_USER*/0x400 + 16,
+	NM_OnCancel3 = /*WM_USER*/0x400 + 17,
+
+	NM_OnErrorCalc = /*WM_USER*/0x400 + 18
+
+ } NotifyMsg;
+
+typedef [public,  uuid(516F4021-1E7E-11d4-8F0B-00504E02C39D)] enum OptTask_tag {
+
+    OT_FixMoney_MinQ,
+	OT_FixQ_MinMoney
+
+ } OptTask;
+
+
+typedef [public,  uuid(7082AD41-1E80-11d4-8F0B-00504E02C39D)] enum CollSFSorting_tag {
+
+    CSFS_None,
+	CSFS_Price,
+    CSFS_DeltaQ,
+
+	CSFS_PriceDescending,
+	CSFS_DeltaQDescending,
+	CSFS_KDescending
+
+ } CollSFSorting;
+
+typedef [public, v1_enum, uuid(5082AD42-5E85-11d4-1F0A-90504E02C39D)] enum ThrdPriority_tag {
+
+    TP_ABOVE_NORMAL,
+	TP_BELOW_NORMAL,
+    TP_HIGHEST,
+	TP_LOWEST,
+	TP_NORMAL	
+
+ } ThrdPriority;
+
+
+typedef [public,  uuid(1082AD11-8D75-11F4-1F0A-60504E02C39A)] enum TrustChange_tag {
+
+    TR_NoChange = 0,
+	TR_MinusOne = 1,
+	TR_MinusTwo = 2,
+	TR_PlusOne = 3,
+	TR_PlusTwo = 4,
+	TR_SetLow = 5,
+	TR_SetNormal = 6,
+	TR_SetHigh = 7
+
+ } TrustChange;
+ 
+
+typedef [public,  uuid(1082AD21-7D71-11F4-1F0F-90514EF2C310)] enum PrpbDistrTyp_tag {
+
+    PDT_Uniform = 0,
+	PDT_Cauchy = 1	
+
+ } PrpbDistrTyp;
+
+typedef [public,  uuid(2092AD21-1D71-51F4-7F0F-A0512EF2C31A)] enum NumberFormat_tag {
+
+    NF_Normal = 0,
+	NF_Scientific = 1	
+
+ } NumberFormat;
+
+typedef [public,  uuid(8092AD21-1A71-57F2-7B0F-B0512EF2D31A)] enum NFormatTyp_tag {
+
+    NFT_Pr = 0,
+	NFT_Other = 1	
+
+ } NFormatTyp;
+
+
+struct Tag_TypANodesStat
+{
+    double dAvgP; 
+	double dSummP;
+	double dMinVal; 
+	double dMaxVal;
+	CY   cySz;
+	double dAvg;
+	double dDx;	
+};
+
+typedef struct Tag_TypANodesStat TypANodesStat;
+	
+
+	[
+		object,
+		uuid(86822110-0876-11D4-8EE4-00504E02C39D),
+		dual,
+		helpstring("ILingvoEnum Interface"),
+		pointer_default(unique)
+	]
+	interface ILingvoEnum : IDispatch
+	{		
+		[propget, id(0), helpstring("property Quality")] HRESULT Quality([in] long lOrder, [out, retval] double *pVal);
+		[propput, id(0), helpstring("property Quality")] HRESULT Quality([in] long lOrder, [in] double newVal);
+		[propget, id(2), helpstring("property Mark")] HRESULT Mark([in] long lOrder, [out, retval] BSTR *pVal);
+		[propput, id(2), helpstring("property Mark")] HRESULT Mark([in] long lOrder, [in] BSTR newVal);		
+		[propget, id(4), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+		[id(5), helpstring("method MarkForValue")] HRESULT MarkForValue([in] double dVal, [out, retval] BSTR* pbsMark);
+		[propget, id(6), helpstring("property ID")] HRESULT ID([out, retval] VARIANT *pVal);
+		[propget, id(7), helpstring("property IsDirty")] HRESULT IsDirty([out, retval] VARIANT_BOOL *pVal);
+		[id(8), helpstring("method UpdateFrom")] HRESULT UpdateFrom([in]ILingvoEnum* pLEnum);
+		[id(9), helpstring("method RoundS")] HRESULT RoundS([in]double Val, [out,retval]double* dV);
+		[id(10), helpstring("method ValueIdx")] HRESULT ValueIdx([in]double Val, [out,retval]short* shIdx);
+	};
+	[
+		object,
+		uuid(0482EBD4-15F5-11D4-8EFD-00504E02C39D),
+		dual,
+		helpstring("IFChange Interface"),
+		pointer_default(unique)
+	]
+	interface IFChange : IDispatch
+	{
+	    [propget, id(1), helpstring("property NameFactor")] HRESULT NameFactor([out, retval] BSTR *pVal);
+		[propput, id(1), helpstring("property NameFactor")] HRESULT NameFactor([in] BSTR newVal);
+		[propget, id(2), helpstring("property ID")] HRESULT ID([out, retval] VARIANT *pVal);
+		[propget, id(3), helpstring("property TCh")] HRESULT TCh([out, retval] TrustChange *pVal);
+		[propput, id(3), helpstring("property TCh")] HRESULT TCh([in] TrustChange newVal);
+		[propget, id(0), helpstring("property Delta"), defaultcollelem] HRESULT Delta([out, retval] short *pVal);
+		[propput, id(0), helpstring("property Delta"), defaultcollelem] HRESULT Delta([in] short newVal);
+	};
+	[
+		object,
+		uuid(0482EBD6-15F5-11D4-8EFD-00504E02C39D),
+		dual,
+		helpstring("IICollFChange Interface"),
+		pointer_default(unique)
+	]
+	interface IICollFChange : IDispatch
+	{
+	    [propget, id(DISPID_NEWENUM), restricted, helpstring("property _NewEnum")] HRESULT _NewEnum([out, retval] LPUNKNOWN *pVal);
+		[id(DISPID_VALUE), helpstring("method Item")] HRESULT Item([in]long index, [out, retval]IFChange **pvar);
+		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+		[id(2), helpstring("method Add")] HRESULT Add([in]IFChange *pI, [in, optional, defaultvalue(-1)]long index, [out, retval, optional]long* indexAss);
+		[id(3), helpstring("method Remove")] HRESULT Remove([in]long index);		
+		[id(5), helpstring("method LookNextIndex")] HRESULT LookNextIndex([out, retval]long* plIndex);
+		[id(50)] HRESULT Clear();
+	};
+	[
+		object,
+		uuid(F4E48353-15DF-11D4-8EFC-00504E02C39D),
+		dual,
+		helpstring("ISafetyPrecaution Interface"),
+		pointer_default(unique)
+	]
+	interface ISafetyPrecaution : IDispatch
+	{
+		[propget, id(0), helpstring("property Name"), defaultcollelem] HRESULT Name([out, retval] BSTR *pVal);
+		[propput, id(0), helpstring("property Name"), defaultcollelem] HRESULT Name([in] BSTR newVal);
+		[propget, id(2), helpstring("property Cost")] HRESULT Cost([out, retval] CURRENCY *pVal);
+		[propput, id(2), helpstring("property Cost")] HRESULT Cost([in] CURRENCY newVal);
+		[propget, id(3), helpstring("property DeltaQ")] HRESULT DeltaQ([out, retval] double *pVal);
+		[propput, id(3), helpstring("property DeltaQ")] HRESULT DeltaQ([in] double newVal);
+		[propget, id(4), helpstring("property ID")] HRESULT ID([out, retval] VARIANT *pVal);
+		[propget, id(5), helpstring("property FChanges")] HRESULT FChanges([out, retval] IICollFChange* *pVal);
+		[propget, id(6), helpstring("property CollNonCompatibles")] HRESULT NonCompatibles([out, retval] SAFEARRAY(long)* pparrVal);
+		[propput, id(6), helpstring("property CollNonCompatibles")] HRESULT NonCompatibles([in] SAFEARRAY(long)* parrVal);
+		[propget, id(7), helpstring("property IsDirty")] HRESULT IsDirty([out, retval] VARIANT_BOOL *pVal);
+		[propget, id(8), helpstring("property Profit")] HRESULT Profit([out, retval] CURRENCY *pVal);
+		[propput, id(8), helpstring("property Profit")] HRESULT Profit([in] CURRENCY newVal);
+		[propget, id(9), helpstring("property Ke")] HRESULT Ke([out, retval] double *pVal);
+		[propput, id(9), helpstring("property Ke")] HRESULT Ke([in] double newVal);
+	};	
+	[
+		object,
+		uuid(88B55013-176A-11D4-8EFE-00504E02C39D),
+		dual,
+		helpstring("ICollSF Interface"),
+		pointer_default(unique)
+	]
+	interface ICollSF : IDispatch
+	{
+	    [propget, id(DISPID_NEWENUM), restricted, helpstring("property _NewEnum")] HRESULT _NewEnum([out, retval] LPUNKNOWN *pVal);
+		[propget, id(53), helpstring("property Sorting")] HRESULT Sorting([out, retval] CollSFSorting *pVal);
+		[propput, id(53), helpstring("property Sorting")] HRESULT Sorting([in] CollSFSorting newVal);
+		[propget, id(54), helpstring("property IsDirty")] HRESULT IsDirty([out, retval] VARIANT_BOOL *pVal);
+		[propget, id(55), helpstring("property Profit")] HRESULT Profit([out, retval] CURRENCY *pVal);
+		[propput, id(55), helpstring("property Profit")] HRESULT Profit([in] CURRENCY newVal);
+		[propget, id(56), helpstring("property Ke")] HRESULT Ke([out, retval] double *pVal);
+		[propput, id(56), helpstring("property Ke")] HRESULT Ke([in] double newVal);
+		[propget, id(57), helpstring("property Cost")] HRESULT Cost([out, retval] CURRENCY *pVal);
+		[propput, id(57), helpstring("property Cost")] HRESULT Cost([in] CURRENCY newVal);
+		[propget, id(58), helpstring("property DeltaQ")] HRESULT DeltaQ([out, retval] double *pVal);
+		[propput, id(58), helpstring("property DeltaQ")] HRESULT DeltaQ([in] double newVal);
+		[id(59), helpstring("method CheckCompatible")] HRESULT CheckCompatible([out,optional, defaultvalue(0)]ICollSF** pSFNone, [out,retval]VARIANT_BOOL* bResult);
+		[id(DISPID_VALUE), helpstring("method Item")] HRESULT Item([in]long index, [out, retval]ISafetyPrecaution **pvar);
+		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+		[id(2), helpstring("method Add")] HRESULT Add([in]ISafetyPrecaution *pI, [in, optional, defaultvalue(-1)]long index, [out, retval, optional]long* indexAss);
+		[id(3), helpstring("method Remove")] HRESULT Remove([in]long index);		
+		[id(5), helpstring("method LookNextIndex")] HRESULT LookNextIndex([out, retval]long* plIndex);
+		[id(50)] HRESULT Clear();
+		[propget, id(51), helpstring("property IsValidDelta")] HRESULT IsValidDelta([out, retval] VARIANT_BOOL *pVal);
+		[id(52), helpstring("method InvalidateDelta")] HRESULT InvalidateDelta();
+	};
+	[
+		object,
+		uuid(86822115-0876-11D4-8EE4-00504E02C39D),
+		dual,
+		helpstring("ICollLingvo Interface"),
+		pointer_default(unique)
+	]
+	interface ICollLingvo : IDispatch
+	{
+		[propget, id(DISPID_NEWENUM), restricted, helpstring("property _NewEnum")] HRESULT _NewEnum([out, retval] LPUNKNOWN *pVal);
+		[id(DISPID_VALUE), helpstring("method Item")] HRESULT Item([in]long index, [out, retval]ILingvoEnum **pvar);
+		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+		[id(2), helpstring("method Add")] HRESULT Add([in]ILingvoEnum *pI, [in, optional, defaultvalue(-1)]long index, [out, retval, optional]long* indexAss);
+		[id(3), helpstring("method Remove")] HRESULT Remove([in]long index);		
+		[id(5), helpstring("method LookNextIndex")] HRESULT LookNextIndex([out, retval]long* plIndex);
+		[id(50)] HRESULT Clear();
+		[propget, id(51), helpstring("property IsDirty")] HRESULT IsDirty([out, retval] VARIANT_BOOL *pVal);
+		[id(52), helpstring("method UpdateFrom")] HRESULT UpdateFrom([in]ICollLingvo* pIColl);
+	};				
+	[
+		object,
+		uuid(48118E77-0F7C-11D4-8EF1-00504E02C39D),
+		dual,
+		helpstring("ICompaundFiles Interface"),
+		pointer_default(unique)
+	]
+	interface ICompaundFiles : IDispatch
+	{
+		[id(1), helpstring("method Create")] HRESULT CreateCF([in]BSTR bsName, [in]EnumCompConsts lAttrOpen, [out, retval]IStorage** ppIStorage);
+		[id(2), helpstring("method OpenCF")] HRESULT OpenCF([in]BSTR bsName, [in]EnumCompConsts lAttrOpen, [out, retval]IStorage** ppIStorage);
+		[id(3), helpstring("method CreateStorageInt")] HRESULT CreateStorageInt([in]IStorage *pStg, [in]BSTR bsName, [in]EnumCompConsts lAttrOpen, [out, retval]IStorage** ppIStorage);
+		[id(4), helpstring("method OpenStorageInt")] HRESULT OpenStorageInt([in]IStorage *pStg, [in]BSTR bsName, [in]EnumCompConsts lAttrOpen, [out, retval]IStorage** ppIStorage);
+		[id(5), helpstring("method Sprintf"), vararg] HRESULT Sprintf([in]BSTR bsFormatString, [in, defaultvalue(5120L)]long lBuffSize, [in]SAFEARRAY(VARIANT)* pparrArgs, [out,retval]BSTR* bsResult);
+		[id(6), helpstring("method HiLong")] HRESULT HiLong([in]long lArg, [out, retval]long* pRes);
+		[id(7), helpstring("method LoLong")] HRESULT LoLong([in]long lArg, [out, retval]long* pRes);		
+		[id(9), helpstring("method ShiftLong2")] HRESULT LShiftLong([in]long lArg, [in]long lCnt, [out,retval]long* pRes);
+		[id(10), helpstring("method ShiftLong2")] HRESULT RShiftLong([in]long lArg, [in]long lCnt, [out,retval]long* pRes);
+		[id(11), helpstring("method DirOfStorage")] HRESULT DirOfStorage([in]IStorage* pStg, [in]TDRFlags shFlags, [out] SAFEARRAY(BSTR)* ppArrNamesStg, [out] SAFEARRAY(BSTR)* ppArrNamesStrm);
+		[id(12), helpstring("method Win32ErrInfo")] HRESULT Win32ErrInfo([in]long ErrCode, [out,retval]BSTR* ResultStr);
+		[id(13), helpstring("method CutPath")] HRESULT CutPath([in]BSTR FullPath, [in, out, optional]VARIANT* Dir, [in, out, optional]VARIANT* Name,  [in, out, optional]VARIANT* Ext);
+		[id(14), helpstring("method Commit")] HRESULT Commit([in]STGC1 Flags, [in]IStorage *Stg);
+		[id(15), helpstring("method Revert")] HRESULT Revert([in]IStorage *Stg);
+		[id(16), helpstring("method OpenStreamInt")] HRESULT OpenStreamInt([in]IStorage *pStg, [in]BSTR NameStream, [in]EnumCompConsts lAttrOpen, [out, retval]IStream** ppIStrm);
+		[id(17)] HRESULT PutString( [in]IStream* Strm, [in]BSTR Str );
+		[id(18)] HRESULT GetString( [in]IStream* Strm, [out,retval]BSTR* pStr );
+		[id(19)] HRESULT CreateStreamInt([in]IStorage *pStg, [in]BSTR NameStream, [in]EnumCompConsts lAttrOpen, [out, retval]IStream** ppIStrm);
+		[id(20), helpstring("method DestroyCF")] HRESULT DestroyCF([in]IStorage* Stg, [in]BSTR Name);
+		[id(21), helpstring("method IsEmptyStg")] HRESULT IsEmptyStg([in]IStorage* Stg, [out,retval]VARIANT_BOOL* bEmpty);
+		[id(22), helpstring("method MakeLong")] HRESULT MakeLong([in]long Lo, [in]long Hi, [out,retval]long* lRes);
+	};
+	[
+		object,
+		uuid(A754AAC3-1117-11D4-8EF2-00504E02C39D),
+		dual,
+		helpstring("IFactor Interface"),
+		pointer_default(unique)
+	]		
+	interface IFactor : IDispatch
+	{
+		[propget, id(1), helpstring("property Name")] HRESULT Name([out, retval] BSTR *pVal);
+		[propput, id(1), helpstring("property Name")] HRESULT Name([in] BSTR newVal);		
+		[propget, id(3), helpstring("property IDEnum")] HRESULT IDEnum([out, retval] long *pVal);
+		[propput, id(3), helpstring("property IDEnum")] HRESULT IDEnum([in] long lVal);
+		[propget, id(0), helpstring("property Value")] HRESULT Value([out, retval] short *pVal);
+		[propput, id(0), helpstring("property Value")] HRESULT Value([in] short newVal);
+		[propget, id(4), helpstring("property TrustLvl")] HRESULT TrustLvl([out, retval] TrustLevel *pVal);
+		[propput, id(4), helpstring("property TrustLvl")] HRESULT TrustLvl([in] TrustLevel newVal);
+		[propget, id(5), helpstring("property ID")] HRESULT ID([out, retval] VARIANT *pVal);
+		[propget, id(6), helpstring("property IsDirty")] HRESULT IsDirty([out, retval] VARIANT_BOOL *pVal);
+		[id(7), helpstring("method ResetOverWrap")] HRESULT ResetOverWrap();
+		[id(8), helpstring("method AddOwerWrap")] HRESULT AddOwerWrap();
+		[propget, id(9), helpstring("property Overwrap")] HRESULT Overwrap([out, retval] short *pVal);
+		[propget, id(10), helpstring("property Idx")] HRESULT Idx([in]short sIdx, [out, retval] float *pVal);
+		[propput, id(10), helpstring("property Idx")] HRESULT Idx([in]short sIdx, [in] float newVal);
+		[propget, id(11), helpstring("property NIdx")] HRESULT NIdx([out, retval] short *pVal);
+		[propget, id(12), helpstring("property DistrType")] HRESULT DistrType([out, retval] PrpbDistrTyp *pVal);
+		[propput, id(12), helpstring("property DistrType")] HRESULT DistrType([in] PrpbDistrTyp newVal);
+		[propget, id(13), helpstring("property CochiPlacement")] HRESULT CochiPlacement([out, retval] float *pVal);
+		[propput, id(13), helpstring("property CochiPlacement")] HRESULT CochiPlacement([in] float newVal);
+		[propget, id(14), helpstring("property CochiScale")] HRESULT CochiScale([out, retval] float *pVal);
+		[propput, id(14), helpstring("property CochiScale")] HRESULT CochiScale([in] float newVal);
+	};
+
+	[
+		object,
+		uuid(41118E75-0F7C-11D4-8EF1-00504E02C39A),		
+		helpstring(""),
+		pointer_default(unique)
+	]
+	interface ILongKey : IUnknown
+	{
+		HRESULT Set( [in]long lKey );		
+		HRESULT Get( [out, retval]long* plKey );		
+	};
+
+	[
+		object,
+		uuid(41118E75-9F71-11D5-8AF1-00504E02C39A),		
+		helpstring(""),
+		pointer_default(unique)
+	]
+	interface IClonable : IUnknown
+	{
+		HRESULT Clone( [out, retval]IUnknown **ppUnk );				
+	};
+
+	[
+		object,
+		uuid(41118E75-0F7C-11D4-8EF2-00504E02C39A),		
+		helpstring(""),
+		pointer_default(unique)
+	]
+	interface IBSTRKey : IUnknown
+	{
+		HRESULT Set( [in]BSTR lKey );		
+		HRESULT Get( [out, retval]BSTR* plKey );		
+	};	
+	[
+		object,
+		uuid(59619591-19F2-11d4-8F02-00504E02C39D),		
+		helpstring(""),
+		pointer_default(unique)
+	]
+	interface IMGertNet_Debug : IUnknown
+	{
+		HRESULT GetPtsForFactor( [in]BSTR bsFShortName, [out, retval]SAFEARRAY(double)* pparrPoints );
+		HRESULT GetDensityForFactor( [in]BSTR bsFShortName, [out, retval]SAFEARRAY(double)* pparrPoints );
+		[helpstring("method TestFunc")] HRESULT TestFunc([in] BSTR bsFac, [in] double dX, [out, retval] double* dY);
+	};
+	[
+		object,
+		uuid(A754AAC5-1117-11D4-8EF2-00504E02C39D),
+		dual,
+		helpstring("ICollFac Interface"),
+		pointer_default(unique)
+	]
+	interface ICollFac : IDispatch
+	{
+	    [propget, id(DISPID_NEWENUM), restricted, helpstring("property _NewEnum")] HRESULT _NewEnum([out, retval] LPUNKNOWN *pVal);
+		[id(DISPID_VALUE), helpstring("method Item")] HRESULT Item([in]BSTR index, [out, retval]IFactor **pvar);
+		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+		[id(2), helpstring("method Add")] HRESULT Add([in]IFactor *pI, [in]BSTR key );
+		[id(3), helpstring("method Remove")] HRESULT Remove([in]BSTR key);
+		[id(4), helpstring("method GetIndexOfItem")] HRESULT GetIndexOfItem([in]IFactor* pEN, [out, retval]BSTR* pKey);		
+		[id(50)] HRESULT Clear();
+	};	
+	[
+		object,
+		uuid(A754AAC7-1117-11D4-8EF2-00504E02C39D),
+		dual,
+		helpstring("IMGertNet Interface"),
+		pointer_default(unique)
+	]
+	interface IMGertNet : IDispatch
+	{
+		[propget, id(1), helpstring("property Enumerators")] HRESULT Enumerators([out, retval] ICollLingvo* *pVal);
+		[propget, id(0), defaultcollelem, helpstring("property Factors")] HRESULT Factors([out, retval] ICollFac* *pVal);
+
+		[propget, id(3), helpstring("property NotifyWnd")] HRESULT NotifyWnd([out, retval] long *pVal);
+		[propput, id(3), helpstring("property NotifyWnd")] HRESULT NotifyWnd([in] long newVal);
+		[propget, id(4), helpstring("property RunMode")] HRESULT RunMode([out, retval] ModelType *pVal);
+		[propput, id(4), helpstring("property RunMode")] HRESULT RunMode([in] ModelType newVal);
+
+		[id(5), helpstring("method Run")] HRESULT Run([in]long lNExperience, [in]long lNRunInOne, [in, optional, defaultvalue(0/*VARIANT_FALSE*/)] VARIANT_BOOL bResetModel, [in, optional, defaultvalue(-1)]long lRndBase, [in, optional, defaultvalue(0/*VARIANT_FALSE*/)] VARIANT_BOOL bPrepareOnly );
+		[id(6), helpstring("method Cancel")] HRESULT Cancel();
+
+		
+
+		[propget, id(12), helpstring("property Counter")] HRESULT Counter([in] WCHAR cState, [out, retval] long *pVal);		
+		[propget, id(13), helpstring("property Dx")] HRESULT Dx([in] WCHAR cState, [out, retval] double *pVal);
+		[propget, id(14), helpstring("property Mx")] HRESULT Mx([in] WCHAR cState, [out, retval] double *pVal);
+		[propget, id(15), helpstring("property TimeWork")] HRESULT TimeWork([out, retval] DATE *pVal);
+		[propget, id(16), helpstring("property NumberStates")] HRESULT NumberStates([out, retval] short *pVal);
+
+		[propget, id(17), helpstring("property K")] HRESULT K([out, retval] long *pVal);
+		[propput, id(17), helpstring("property K")] HRESULT K([in] long newVal);
+		[propget, id(18), helpstring("property N")] HRESULT N([out, retval] long *pVal);
+		[propput, id(18), helpstring("property N")] HRESULT N([in] long newVal);
+
+		[propget, id(19), helpstring("property SampleN")] HRESULT SampleN([in] long lIndex, [out, retval] SAFEARRAY(long)* pparrSmpl );
+		[propget, id(20), helpstring("property NotifyStep")] HRESULT NotifyStep([out, retval] short *pVal);
+		[propput, id(20), helpstring("property NotifyStep")] HRESULT NotifyStep([in] short newVal);
+		[id(21), helpstring("method GetFactorPresent")] HRESULT GetFactorPresent([in] IFactor* pF, [in,out,optional] VARIANT* strDescription, [in,out,optional] VARIANT* strTrustLvl, [in,out,optional] VARIANT* dVal);
+		[id(22), helpstring("method GetFactorPresentForName")] HRESULT GetFactorPresentForName([in] BSTR bsShortName, [out] BSTR* pbsDescription, [out] BSTR* pbsTrustLvl, [out] double* pdVal);
+		[id(23), helpstring("method ApplySF")] HRESULT ApplySF([in] ICollSF* pSF, [out,optional]VARIANT_BOOL* pbOverWrap);
+		[id(24), helpstring("method GetEnumForFactor")] HRESULT GetEnumForFactor([in] IFactor* pF, [out, retval] ILingvoEnum** ppLE);
+		[id(25), helpstring("method GetInfSampleK")] HRESULT GetInfSampleK([in]WCHAR cState, [out]long* pMin, [out]long* pMax, [out]double* pMx, [out]double* pDx);				
+		[propget, id(28), helpstring("property IsRunning")] HRESULT IsRunning([out, retval] VARIANT_BOOL *pVal);
+		[id(29), helpstring("method GetInfSampleKIdx")] HRESULT GetInfSampleKIdx([in]WCHAR cState, [out]double* pMin, [out]double* pMax, [out]double* pMx, [out]double* pDx);
+		[id(30), helpstring("method ChangeDirty")] HRESULT ChangeDirty([in] VARIANT_BOOL bFlDirty);
+		[id(31), helpstring("method CalcDeltaQ")] HRESULT CalcDeltaQ([in] ICollSF* pCollSF, [in] long lK, [in] long lN, [in, optional, defaultvalue(-1)] short shMedVal);
+		[propget, id(42), helpstring("property CalcSpeed")] HRESULT CalcSpeed([out, retval] ThrdPriority *pVal);
+		[propput, id(42), helpstring("property CalcSpeed")] HRESULT CalcSpeed([in] ThrdPriority newVal);
+		
+
+		[propget, id(47), helpstring("property OptimizationType")] HRESULT OptimizationType([out, retval] OptType *pVal);
+		[propput, id(47), helpstring("property OptimizationType")] HRESULT OptimizationType([in] OptType newVal);
+		[propget, id(48), helpstring("property RemovLingvoOverwrap")] HRESULT RemovLingvoOverwrap([out, retval] VARIANT_BOOL *pVal);
+		[propput, id(48), helpstring("property RemovLingvoOverwrap")] HRESULT RemovLingvoOverwrap([in] VARIANT_BOOL newVal);
+		[propget, id(49), helpstring("property AverageDamage")] HRESULT AverageDamage([out, retval] CURRENCY *pVal);
+		[propput, id(49), helpstring("property AverageDamage")] HRESULT AverageDamage([in] CURRENCY newVal);
+		[propget, id(50), helpstring("property MoneyForSF")] HRESULT MoneyForSF([out, retval] CURRENCY *pVal);
+		[propput, id(50), helpstring("property MoneyForSF")] HRESULT MoneyForSF([in] CURRENCY newVal);
+		[id(51), helpstring("method Snapshot")] HRESULT Snapshot([in]VARIANT_BOOL bMake);
+		[id(52), helpstring("method Revert")] HRESULT Revert();
+		[propget, id(53), helpstring("property UserProp")] HRESULT UserProp([out, retval] long *pVal);
+		[propput, id(53), helpstring("property UserProp")] HRESULT UserProp([in] long newVal);
+		[propget, id(54), helpstring("property RndBase")] HRESULT RndBase([out, retval] long *pVal);
+		[propput, id(54), helpstring("property RndBase")] HRESULT RndBase([in] long newVal);
+		[propget, id(55), helpstring("property CurrIterStr")] HRESULT CurrIterStr([out, retval] BSTR *pVal);
+		[propget, id(56), helpstring("property TotalIterStr")] HRESULT TotalIterStr([out, retval] BSTR *pVal);
+		[propget, id(57), helpstring("property StatOn")] HRESULT StatOn([out, retval] TStatFlag *pVal);
+		[propput, id(57), helpstring("property StatOn")] HRESULT StatOn([in] TStatFlag newVal);
+		[propget, id(58), helpstring("property StatIn")] HRESULT StatIn([out, retval] VARIANT_BOOL *pVal);
+		[propput, id(58), helpstring("property StatIn")] HRESULT StatIn([in] VARIANT_BOOL newVal);
+		[id(59), helpstring("method TstApplyTCH")] HRESULT TstApplyTCH([in]IFactor* pFac, [in]IFChange* pFC, [out,retval]TrustLevel* pLvl);
+		[propget, id(60), helpstring("property ImitateCount")] HRESULT ImitateCount([out, retval] DATE* pVal);
+		[propget, id(61), helpstring("property OptCount")] HRESULT OptCount([out, retval] DATE *pVal);
+		[propget, id(62), helpstring("property RngCount")] HRESULT RngCount([out, retval] DATE *pVal);
+		[propget, id(63), helpstring("property ModuleProgID")] HRESULT ModuleProgID([out, retval] BSTR *pVal);
+		[propput, id(63), helpstring("property ModuleProgID")] HRESULT ModuleProgID([in] BSTR newVal);
+		[propget, id(64), helpstring("property NDiv")] HRESULT NDiv([out, retval] short *pVal);
+		[propput, id(64), helpstring("property NDiv")] HRESULT NDiv([in] short newVal);
+		[propget, id(65), helpstring("property UnionThreshold")] HRESULT UnionThreshold([out, retval] double *pVal);
+		[propput, id(65), helpstring("property UnionThreshold")] HRESULT UnionThreshold([in] double newVal);
+		[propget, id(66), helpstring("property IntegralAccuracy")] HRESULT IntegralAccuracy([out, retval] double *pVal);
+		[propput, id(66), helpstring("property IntegralAccuracy")] HRESULT IntegralAccuracy([in] double newVal);
+		[propget, id(67), helpstring("property NFormat")] HRESULT NFormatPr([out, retval] NumberFormat *pVal);
+		[propput, id(67), helpstring("property NFormat")] HRESULT NFormatPr([in] NumberFormat newVal);
+		[propget, id(68), helpstring("property NFormatOther")] HRESULT NFormatOther([out, retval] NumberFormat *pVal);
+		[propput, id(68), helpstring("property NFormatOther")] HRESULT NFormatOther([in] NumberFormat newVal);
+		[propget, id(69), helpstring("property NDigitsPr")] HRESULT NDigitsPr([out, retval] short *pVal);
+		[propput, id(69), helpstring("property NDigitsPr")] HRESULT NDigitsPr([in] short newVal);
+		[propget, id(70), helpstring("property NDigitsOther")] HRESULT NDigitsOther([out, retval] short *pVal);
+		[propput, id(70), helpstring("property NDigitsOther")] HRESULT NDigitsOther([in] short newVal);
+		[propget, id(71), helpstring("property NFormat")] HRESULT NFormat([in]NFormatTyp nf, [out, retval] BSTR *pVal);
+
+		[propget, id(72), helpstring("property VParam")] HRESULT VParam([in] short Ventil, [out, retval] long *pVal);
+		[propput, id(72), helpstring("property VParam")] HRESULT VParam([in] short Ventil, [in] long newVal);
+		[propget, id(73), helpstring("property VParamIndistinct")] HRESULT VParamIndistinct([in] short Ventil, [out, retval] double *pVal);
+		[propput, id(73), helpstring("property VParamIndistinct")] HRESULT VParamIndistinct([in] short Ventil, [in] double newVal);
+		[propget, id(74), helpstring("property VProbability")] HRESULT VProbability([in] short Ventil, [out, retval] double *pVal);
+		[propput, id(74), helpstring("property VProbability")] HRESULT VProbability([in] short Ventil, [in] double newVal);
+		[propget, id(75), helpstring("property ModuleConfig")] HRESULT ModuleConfig([out, retval] BSTR *pVal);
+		[propput, id(75), helpstring("property ModuleConfig")] HRESULT ModuleConfig([in] BSTR newVal);
+
+		[propget, id(32), helpstring("property TimeWork2")] HRESULT TimeWork2([out, retval] DATE *pVal);
+		[id(33), helpstring("method OptimizeSelectSF")] HRESULT OptimizeSelectSF([in]OptTask otTask, [in]ICollSF *pCollSF, [in]CURRENCY cyMax, [in]double dDeltaQ, [in]double dP0, [in]short shNRetAlternate);
+		[propget, id(34), helpstring("property IsRunning2")] HRESULT IsRunning2([out, retval] VARIANT_BOOL *pVal);
+		[propget, id(35), helpstring("property IsRunningOpt")] HRESULT IsRunningOpt([out, retval] VARIANT_BOOL *pVal);
+		[propget, id(36), helpstring("property OptimizResultsGetAndClear")] HRESULT OptimizResultsGetAndClear([out, retval] SAFEARRAY(IDispatch*)* ppVal);
+		[propget, id(37), helpstring("property TimeWork3")] HRESULT TimeWork3([out, retval] DATE *pVal);
+		[id(38), helpstring("method CalibrateModel")] HRESULT CalibrateModel([in]double dP1, [in]double dP2, [in]double dP3, [in]double dP4);
+		[propget, id(39), helpstring("property LastCalcError")] HRESULT LastCalcError([out, retval] BSTR *pVal);
+		[id(40), helpstring("method GetModelStat")] HRESULT GetModelStat([in]short shIdx, [out]TypANodesStat* pNS, [out] SAFEARRAY(double)* pparrSmpl, [in]VARIANT_BOOL bFullGet);
+		[propget, id(41), helpstring("property IsDirty")] HRESULT IsDirty([out, retval] VARIANT_BOOL *pVal);
+	};
+    	
+
+[
+		object,
+		uuid(5A049761-6C64-11d4-8FBC-00504E02C39D),
+		dual,
+		helpstring("IFactorAssign Interface"),
+		pointer_default(unique)
+	]
+	interface IFactorAssign : IDispatch
+	{
+      [propget, id(0)] HRESULT Description( [out, retval] BSTR* Descr );
+	  [id(1)] HRESULT AssignFactor( [in] IDispatch* OwnerForm, [in] long HWnd, [in] IMGertNet* GertNet, [in] IFactor* Factor, [in]BSTR ConfigName, [in]BSTR FileName );
+	  [id(2)] HRESULT About( [in] IDispatch* OwnerForm, [in] long HWnd );
+	  [propget, id(3)] HRESULT ModalResult( [out, retval] long* MResult );
+	  [id(4)] HRESULT Configure( [in] IDispatch* OwnerForm, [in] long HWnd, [in]BSTR ConfigName, [in]BSTR FileName );
+	};
+
+
+[
+	uuid(86822101-0876-11D4-8EE4-00504E02C39D),
+	version(1.0),
+	helpstring("GertNet 1.0 Type Library")
+]
+library GERTNETLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	interface IFactorAssign;
+	enum NotifyMsg_tag;
+
+	[
+		uuid(EE4DF84F-9CE0-11D3-8E11-AA504E02C39A),
+		helpstring("_IGertNetEvents Interface")
+	]
+	dispinterface _IGertNetEvents
+	{
+		properties:
+		methods:		
+		  [id(1)] HRESULT OnEndOfWork( [in] DATE dtTime );		  
+		  [id(2)] HRESULT OnStepOfWork( [in] short shPercent );
+		  [id(3)] HRESULT OnCancel( [in] DATE dtTime );		
+		  [id(4)] HRESULT OnErrorCalc( [in] BSTR bsErrMsg );		
+		  [id(5)] HRESULT OnEndOfWork2( [in] DATE dtTime );
+		  [id(6)] HRESULT OnStepOfWork2( [in] short shPercent );
+		  [id(7)] HRESULT OnEndOfWork3( [in] DATE dtTime );
+		  [id(8)] HRESULT OnStepOfWork3( [in] short shPercent );
+		  [id(9)] HRESULT OnCancel3( [in] DATE dtTime );		
+	};						
+	[
+		uuid(114DF84F-9CE0-91D3-8E10-9A504E02C397),
+		helpstring("_IFacEvents Interface")
+	]
+	dispinterface _IFacEvents
+	{
+		properties:
+		methods:		
+		  [id(1)] HRESULT OnDirtyChanged( [in] VARIANT_BOOL bFl );		  		  
+	};						
+	[
+		object,
+		uuid(840E76B1-6ADC-11D4-8FBA-00504E02C39D),
+		dual,
+		helpstring("ICatRegistrar Interface"),
+		pointer_default(unique)
+	]
+	interface ICatRegistrar : IDispatch
+	{
+		[id(1), helpstring("method Register")] HRESULT Register();
+		[id(2), helpstring("method Unregister")] HRESULT Unregister();
+		[id(3), helpstring("method GetProgIDs")] HRESULT GetProgIDs([out, retval] SAFEARRAY(BSTR)* arrProgIDs);
+	};
+	[
+		uuid(86822111-0876-11D4-8EE4-00504E02C39D),
+		helpstring("LingvoEnum Class")
+	]
+	coclass LingvoEnum
+	{
+		[default] interface ILingvoEnum;
+		interface IPersistStreamInit;
+		interface ISupportErrorInfo;
+		interface ILongKey;
+		interface IClonable;
+	};
+	[
+		uuid(86822116-0876-11D4-8EE4-00504E02C39D),
+		helpstring("CollLingvo Class")
+	]
+	coclass CollLingvo
+	{
+		[default] interface ICollLingvo;
+		interface IPersistStorage;
+		interface ISupportErrorInfo;
+		interface IClonable;
+	};
+
+	/*[
+      dllname("ole32.dll")
+    ]
+    module ole32 {
+        [entry(0)] void _stdcall StgCreateDocfile(
+                        [in] WCHAR* pwcsName, 
+                        [in] long grfMode,
+						[in] long reserver,
+						[out] IStorage** ppstgOpen ); 
+    };*/
+	[
+		uuid(48118E78-0F7C-11D4-8EF1-00504E02C39D),
+		helpstring("CompaundFiles Class"),
+		appobject
+	]
+	coclass CompaundFiles
+	{
+		[default] interface ICompaundFiles;
+		interface ISupportErrorInfo;
+	};
+	[
+		uuid(A754AAC4-1117-11D4-8EF2-00504E02C39D),
+		helpstring("Factor Class")
+	]
+	coclass Factor
+	{
+		[default] interface IFactor;
+		[default, source] dispinterface _IFacEvents;
+		interface IBSTRKey;
+		interface IPersistStreamInit;
+		interface ISupportErrorInfo;
+		interface IClonable;
+	};
+	[
+		uuid(A754AAC6-1117-11D4-8EF2-00504E02C39D),
+		helpstring("CollFac Class")
+	]
+	coclass CollFac
+	{
+		[default] interface ICollFac;
+		interface IPersistStorage;
+		interface ISupportErrorInfo;
+		interface IClonable;
+	};
+	[
+		uuid(A754AAC8-1117-11D4-8EF2-00504E02C39D),
+		helpstring("MGertNet Class")
+	]
+	coclass MGertNet
+	{
+		[default] interface IMGertNet;
+		[default, source] dispinterface _IGertNetEvents;
+		interface IPersistStorage;
+		interface ISupportErrorInfo;
+		interface IClonable;
+		interface IMGertNet_Debug;
+	};
+	[
+		uuid(F4E48354-15DF-11D4-8EFC-00504E02C39D),
+		helpstring("SafetyPrecaution Class")
+	]
+	coclass SafetyPrecaution
+	{
+		[default] interface ISafetyPrecaution;
+		interface ISupportErrorInfo;
+		interface IClonable;
+		interface IPersistStreamInit;
+		interface ILongKey;
+	};
+	[
+		uuid(0482EBD5-15F5-11D4-8EFD-00504E02C39D),
+		helpstring("FChange Class")
+	]
+	coclass FChange
+	{
+		[default] interface IFChange;
+		interface ISupportErrorInfo;
+		interface IClonable;
+		interface IPersistStreamInit;
+		interface ILongKey;
+	};
+	[
+		uuid(0482EBD7-15F5-11D4-8EFD-00504E02C39D),
+		helpstring("ICollFChange Class")
+	]
+	coclass ICollFChange
+	{
+		[default] interface IICollFChange;
+	};
+	[
+		uuid(88B55014-176A-11D4-8EFE-00504E02C39D),
+		helpstring("CollSF Class")
+	]
+	coclass CollSF
+	{
+		[default] interface ICollSF;
+		interface IPersistStorage;
+		interface ISupportErrorInfo;
+		interface IClonable;
+	};
+	[
+		uuid(840E76B2-6ADC-11D4-8FBA-00504E02C39D),
+		helpstring("CatRegistrar Class"),
+		appobject
+	]
+	coclass CatRegistrar
+	{
+		[default] interface ICatRegistrar;
+	};
+};

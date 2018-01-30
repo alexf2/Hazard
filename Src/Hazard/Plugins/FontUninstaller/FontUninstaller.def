@@ -1,0 +1,5 @@
+LIBRARY FontUninstaller
+DESCRIPTION "FontUninstaller Lib"
+EXPORTS 	
+    UnInstallFonts		@1
+	LastFIUError		@2

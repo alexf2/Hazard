@@ -1,0 +1,382 @@
+// AWPlugin.idl : IDL source for AWPlugin.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (AWPlugin.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+
+enum EN_AWPluginLib_DispIds
+ {
+	dispid_DefaultCU	= 5
+ };
+
+
+
+typedef [public,  uuid(119A0110-0276-F1D4-8688-50504E02C370)]  enum ObjStatus_tag {
+
+	OS_None = 0,
+	OS_New = 1,	
+	OS_Updated = 2,
+	OS_Deleted = 3	
+
+ } ObjStatus;
+
+
+typedef [public,  uuid(219A0710-0A76-D1D4-86D8-D0504E02C371)]  enum FTSlotTyp_tag {
+
+    FT_None = 0,
+	FT_Self = 1,
+	FT_Gost = 2	
+		
+ } FTSlotTyp;
+
+typedef [public,  uuid(450A2C71-A124-11d4-901C-00504E02C39D)]  enum StdSortSeqv_tag {
+
+    SSS_AsIs       = 0,
+	SSS_ByKeyAsc   = 1,
+	SSS_ByKeyDesc  = 2,
+	SSS_ByNameAsc  = 3,
+	SSS_ByNameDesc = 4
+		
+ } StdSortSeqv;
+
+
+	[
+		object,
+		uuid(F39A15E1-9890-11D4-900E-00504E02C39D),
+		dual,
+		helpstring("IGostTable Interface"),
+		pointer_default(unique)
+	]
+	interface IGostTable : IDispatch
+	{				
+		[propget, id(3), helpstring("property NumberSlots")] HRESULT NumberSlots([out, retval] long *pVal);
+		[id(4), helpstring("method InsertSlots. IdxStart=-1 - insert after last.")] HRESULT InsertSlots([in]long Number, [in, optional, defaultvalue(-1)]long IdxStart);
+		[id(5), helpstring("method RemoveSlots. Number=-1 - all elements; IdxStart=-1 - begin at first.")] HRESULT RemoveSlots([in, optional, defaultvalue(-1)]long Number, [in, optional, defaultvalue(-1)]long IdxStart);
+		[propget, id(6), helpstring("property NDescr")] HRESULT NDescr([in]long ZeroIndex, [out, retval] BSTR *pVal);
+		[propput, id(6), helpstring("property NDescr")] HRESULT NDescr([in]long ZeroIndex, [in] BSTR newVal);
+		[propget, id(7), helpstring("property NLingvoVal")] HRESULT NLingvoVal([in]long ZeroIndex, [out, retval] BSTR *pVal);		
+		[propput, id(7), helpstring("property NLingvoVal")] HRESULT NLingvoVal([in]long ZeroIndex, [in] BSTR newVal);
+		[propget, id(8), helpstring("property NComment")] HRESULT NComment([in]long ZeroIndex, [out, retval] BSTR *pVal);
+		[propput, id(8), helpstring("property NComment")] HRESULT NComment([in]long ZeroIndex, [in] BSTR newVal);
+		[propget, id(0), defaultcollelem, helpstring("property NValue")] HRESULT NValue([in]long ZeroIndex, [out, retval] float *pVal);
+		[propput, id(0), defaultcollelem, helpstring("property NValue")] HRESULT NValue([in]long ZeroIndex, [in] float newVal);		
+		[propget, id(11), helpstring("property ClmName")] HRESULT ClmName([out, retval] BSTR *pVal);
+		[propput, id(11), helpstring("property ClmName")] HRESULT ClmName([in] BSTR newVal);
+		[id(12), helpstring("method SetUniformGrad")] HRESULT SetUniformGrad( [in]VARIANT_BOOL Revers );		
+		[id(13), helpstring("method Check")] HRESULT Check();
+		[propget, id(14), helpstring("property LastErrStrZeroIdx")] HRESULT LastErrStrZeroIdx([out, retval] short *pVal);
+	};
+
+	[
+	  object, public,
+	  uuid(E3674891-9BC8-11d4-9012-00504E02C39D),	  
+	  helpstring("IStCollItem Interface"),
+	  pointer_default(unique)	  
+	]
+	interface IStCollItem : IUnknown
+	{
+	  [propget, id(0), defaultcollelem] HRESULT Key( [out, retval]long* plKey );
+	  [propput, id(0), restricted, hidden, defaultcollelem] HRESULT Key( [in]long lKeyNew );
+      [propget, id(1)] HRESULT Status( [out, retval]ObjStatus* pStatus );
+	  [propget, id(2)] HRESULT Name( [out,retval]BSTR* pbsName );
+	  [propput, id(2), restricted, hidden] HRESULT Name( [in]BSTR bsNameNew );
+	  [propput, id(3), restricted, hidden] HRESULT Sign( [in]long lSignNew );
+	  [propget, id(3), restricted, hidden] HRESULT Sign( [out,retval]long* plSign );
+	  [propget, id(4)] HRESULT Storage( [out, retval] IStorage** Stg );
+	  [propput, id(dispid_DefaultCU)] HRESULT DefaultCU( [in]VARIANT_BOOL bMode );
+	  [propget, id(dispid_DefaultCU)] HRESULT DefaultCU( [out,retval]VARIANT_BOOL* pbMode );	  
+	  [local]BSTR NameByRef( void );
+	};
+
+	[
+		object,
+		uuid(F39A15E3-9890-11D4-900E-00504E02C39D),
+		dual,
+		helpstring("ICollGosts Interface"),
+		pointer_default(unique)
+	]
+	interface ICollGosts : IDispatch
+	{
+		[propget, id(DISPID_NEWENUM), restricted, helpstring("property _NewEnum")] HRESULT _NewEnum([out, retval] LPUNKNOWN *pVal);
+		[id(DISPID_VALUE), helpstring("method Item")] HRESULT Item( [in]VARIANT* Key, [out, retval]IGostTable **ppGT );
+		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+		[id(2), helpstring("method Add")] HRESULT Add( [in]BSTR strName, [out,retval]IGostTable** ppGT );
+		[id(3), helpstring("method Remove. KeyOrObj: long, BSTR, IDispatch")] HRESULT Remove([in]VARIANT* KeyOrObj);
+		[propget, id(4), helpstring("property LongKey")] HRESULT LongKey([in]BSTR Name, [out,retval]long* plKey);
+		[propget, id(5), helpstring("property NameKey")] HRESULT NameKey([in]long Key, [in,optional,defaultvalue(0)]IGostTable* Obj, [out,retval]BSTR* pbsName);
+		[propput, id(5), helpstring("property NameKey")] HRESULT NameKey([in]long Key, [in,optional,defaultvalue(0)]IGostTable* Obj, [in]BSTR bsNewName);
+		[id(6)] HRESULT Clear();		
+		[id(8), helpstring("method Update. KeyOrObj: long, BSTR, IDispatch")] HRESULT Update( [in]VARIANT* KeyOrObj );		
+		[propget, id(9)] HRESULT CachedUpdates( [out,retval]VARIANT_BOOL* pbCached );		
+		//[propput, id(9)] HRESULT CachedUpdates( [in]VARIANT_BOOL pbCached );
+		[id(10)] HRESULT SetUpdateMode( [in]IStorage* Stm, [in]VARIANT_BOOL bMode );				
+		[id(11), helpstring("Number: 1..Count")] HRESULT ItemNth( [in]long Number, [out, retval]IGostTable **ppGT );
+		[propget, id(12)] HRESULT EnumSorting( [out,retval] StdSortSeqv* pSortSeq );
+		[propput, id(12)] HRESULT EnumSorting( [in] StdSortSeqv SortSeq );
+		[id(13)] HRESULT KeyNth( [in]long Number, [out, retval]long* lKey );
+		[id(14)] HRESULT NameNth( [in]long Number, [out, retval]BSTR* bsName );		
+	};
+
+	[
+		object,
+		uuid(F39A15E5-9890-11D4-900E-00504E02C39D),
+		dual,
+		helpstring("ICollTopics Interface"),
+		pointer_default(unique)
+	]
+	interface ICollTopics : IDispatch
+	{
+	    [propget, id(DISPID_NEWENUM), restricted, helpstring("property _NewEnum")] HRESULT _NewEnum([out, retval] LPUNKNOWN *pVal);
+		[id(DISPID_VALUE), helpstring("method Item")] HRESULT Item( [in]VARIANT* Key, [out, retval]ICollGosts **ppGT );
+		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+		[id(2), helpstring("method Add")] HRESULT Add( [in]BSTR strName, [out,retval]ICollGosts** ppGT );
+		[id(3), helpstring("method Remove. KeyOrObj: long, BSTR, IDispatch")] HRESULT Remove([in]VARIANT* KeyOrObj);
+		[propget, id(4), helpstring("property LongKey")] HRESULT LongKey([in]BSTR Name, [out,retval]long* plKey);
+		[propget, id(5), helpstring("property NameKey")] HRESULT NameKey([in]long Key, [in,optional,defaultvalue(0)]ICollGosts* Obj, [out,retval]BSTR* pbsName);
+		[propput, id(5), helpstring("property NameKey")] HRESULT NameKey([in]long Key, [in,optional,defaultvalue(0)]ICollGosts* Obj, [in]BSTR bsNewName);
+		[id(6)] HRESULT Clear();		
+		[id(8), helpstring("method Update. KeyOrObj: long, BSTR, IDispatch")] HRESULT Update( [in]VARIANT* KeyOrObj );		
+		[propget, id(9)] HRESULT CachedUpdates( [out,retval]VARIANT_BOOL* pbCached );		
+		//[propput, id(9)] HRESULT CachedUpdates( [in]VARIANT_BOOL pbCached );
+		[id(10)] HRESULT SetUpdateMode( [in]IStorage* Stm, [in]VARIANT_BOOL bMode );				
+		[id(11), helpstring("Number: 1..Count")] HRESULT ItemNth( [in]long Number, [out, retval]ICollGosts **ppGT );
+		[propget, id(12)] HRESULT EnumSorting( [out,retval] StdSortSeqv* pSortSeq );
+		[propput, id(12)] HRESULT EnumSorting( [in] StdSortSeqv SortSeq );
+		[id(13)] HRESULT KeyNth( [in]long Number, [out, retval]long* lKey );
+		[id(14)] HRESULT NameNth( [in]long Number, [out, retval]BSTR* bsName );
+		
+	};
+
+	/*[
+		object,
+		uuid(F39A15E7-9890-11D4-900E-00504E02C39D),
+		dual,
+		helpstring("ITopic Interface"),
+		pointer_default(unique)
+	]
+	
+	interface ITopic : IDispatch
+	{
+	};
+	*/
+	[
+		object,
+		uuid(F39A15EA-9890-11D4-900E-00504E02C39D),
+		dual,
+		helpstring("IFactorTable Interface"),
+		pointer_default(unique)
+	]
+	interface IFactorTable : IDispatch
+	{				
+		[id(3), helpstring("method InsertSlots")] HRESULT InsertSlots([in]long Number, [in, optional, defaultvalue(-1)]long IdxStart);
+		[id(4), helpstring("method RemoveSlots")] HRESULT RemoveSlots([in, optional, defaultvalue(-1)]long Number, [in, optional, defaultvalue(-1)]long IdxStart);
+		[propget, id(5), helpstring("property NumberSlots")] HRESULT NumberSlots([out, retval] long *pVal);		
+		[propget, id(6), helpstring("property NComponentName")] HRESULT NComponentName([in]long ZeroIndex, [out, retval] BSTR *pVal);
+		[propput, id(6), helpstring("property NComponentName")] HRESULT NComponentName([in]long ZeroIndex, [in] BSTR newVal);		
+		[propget, id(8), helpstring("property NComment")] HRESULT NComment([in]long ZeroIndex,  [out, retval] BSTR *pVal);
+		[propput, id(8), helpstring("property NComment")] HRESULT NComment([in]long ZeroIndex,  [in] BSTR newVal);
+		[propget, id(0), defaultcollelem, helpstring("property NWeight")] HRESULT NWeight([in]long ZeroIndex,  [out, retval] float *pVal);
+		[propput, id(0), defaultcollelem, helpstring("property NWeight")] HRESULT NWeight([in]long ZeroIndex,  [in] float newVal);
+		[propget, id(10), helpstring("property NValuation")] HRESULT NValuation([in]long ZeroIndex,  [out, retval] VARIANT *pfVal);		
+		[propput, id(10), helpstring("property NValuation")] HRESULT NValuation([in]long ZeroIndex,  [in] VARIANT *pfVal);		
+		[propget, id(11), helpstring("property NAveWeighted")] HRESULT NAveWeighted([in]long ZeroIndex,  [out, retval] VARIANT *pfVal);				
+		[propget, id(13), helpstring("property WeightSumm")] HRESULT WeightSumm([out, retval] float *pVal);		
+		[propget, id(14), helpstring("property ValuationSumm")] HRESULT ValuationSumm([out, retval] VARIANT *pfVal);		
+		[propget, id(15), helpstring("property AveWeightedSumm")] HRESULT AveWeightedSumm([out, retval] VARIANT *pfVal);		
+		[propget, id(16)] HRESULT AllComponentsIsAssigned( [out, retval] VARIANT_BOOL* bRes );
+		[id(17), helpstring("StartIdx: Long.")] HRESULT SetWeights( [in, optional]VARIANT StartIdx );
+		[propget, id(18), helpstring("property IsWeightsCorrect")] HRESULT IsWeightsCorrect([in,out,optional]VARIANT* Summ, [out, retval] VARIANT_BOOL *pVal);		
+		[id(20), helpstring("method CalcValues")] HRESULT CalcValues([in, out, optional]VARIANT*  fValuationSumm, [in, out, optional]VARIANT*  fAveWeightedSumm);
+		[propget, id(21), helpstring("property NSlotType")] HRESULT NSlotType([in]long ZeroIndex, [out, retval] FTSlotTyp *pVal);
+		[propget, id(22), helpstring("property NSlotValue")] HRESULT NSlotValue([in]long ZeroIndex, [out, retval] long *pVal);
+		[propput, id(22), helpstring("property NSlotValue")] HRESULT NSlotValue([in]long ZeroIndex, [in] long newVal);
+		[id(23), helpstring("method NAssSlotType")] HRESULT NAssSlotType([in]long ZeroIndex, [in]FTSlotTyp NewTyp, [in, optional] long K1, [in, optional] long K2);
+		[id(24), helpstring("method NBindSlot")] HRESULT NBindSlot([in]long ZeroIndex, [in]IDispatch* Object);
+		[id(25), helpstring("method NSlotSelf")] HRESULT NSlotSelf([in]long ZeroIndex, [out, optional]long* Key, [out, optional]IFactorTable** IFT);
+		[id(26), helpstring("method NSlotGost")] HRESULT NSlotGost([in]long ZeroIndex, [out, optional]long* KeyTopic, [out, optional]long* KeyGost, [out, optional]IGostTable** IGT);
+		[id(27), helpstring("method HandsOffObjects")] HRESULT HandsOffObjects();		
+		[id(28), helpstring("method GetRefToFTable")] HRESULT GetRefToFTable([in]long Key, [out, retval]VARIANT* RefSlot);
+		[id(29), helpstring("method GetRefToGost")] HRESULT GetRefToGost([in]long KeyTopic, [in]long KeyGost, [out, retval]VARIANT* RefSlot);
+		[id(30), helpstring("method NormalyieWeights")] HRESULT NormalizeWeights();
+		[propget, id(31), helpstring("property Locked")] HRESULT NLocked([in]long ZeroIndex, [out, retval] VARIANT_BOOL *pVal);
+		[propput, id(31), helpstring("property Locked")] HRESULT NLocked([in]long ZeroIndex, [in] VARIANT_BOOL newVal);
+		[propget, id(32), helpstring("property NLingvoVal")] HRESULT NLingvoVal([in]long ZeroIndex, [out, retval] BSTR *pVal);		
+		[propput, id(32), helpstring("property NLingvoVal")] HRESULT NLingvoVal([in]long ZeroIndex, [in] BSTR Val);		
+	};
+	[
+		object,
+		uuid(F39A15EC-9890-11D4-900E-00504E02C39D),
+		dual,
+		helpstring("ICollFTables Interface"),
+		pointer_default(unique)
+	]
+	interface ICollFTables : IDispatch
+	{
+	    [propget, id(DISPID_NEWENUM), restricted, helpstring("property _NewEnum")] HRESULT _NewEnum([out, retval] LPUNKNOWN *pVal);
+		[id(DISPID_VALUE), helpstring("method Item")] HRESULT Item( [in]VARIANT* Key, [out, retval]IFactorTable **ppGT );
+		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+		[id(2), helpstring("method Add")] HRESULT Add( [in]BSTR strName, [out,retval]IFactorTable** ppGT );
+		[id(3), helpstring("method Remove. KeyOrObj: long, BSTR, IDispatch")] HRESULT Remove([in]VARIANT* KeyOrObj);
+		[propget, id(4), helpstring("property LongKey")] HRESULT LongKey([in]BSTR Name, [out,retval]long* plKey);
+		[propget, id(5), helpstring("property NameKey")] HRESULT NameKey([in]long Key, [in,optional,defaultvalue(0)]IFactorTable* Obj, [out,retval]BSTR* pbsName);
+		[propput, id(5), helpstring("property NameKey")] HRESULT NameKey([in]long Key, [in,optional,defaultvalue(0)]IFactorTable* Obj, [in]BSTR bsNewName);
+		[id(6)] HRESULT Clear();		
+		[id(8), helpstring("method Update. KeyOrObj: long, BSTR, IDispatch")] HRESULT Update( [in]VARIANT* KeyOrObj );		
+		[propget, id(9)] HRESULT CachedUpdates( [out,retval]VARIANT_BOOL* pbCached );		
+		//[propput, id(9)] HRESULT CachedUpdates( [in]VARIANT_BOOL pbCached );
+		[id(10)] HRESULT SetUpdateMode( [in]IStorage* Stm, [in]VARIANT_BOOL bMode );				
+		[id(11), helpstring("Number: 1..Count")] HRESULT ItemNth( [in]long Number, [out, retval]IFactorTable **ppGT );
+		[propget, id(12)] HRESULT EnumSorting( [out,retval] StdSortSeqv* pSortSeq );
+		[propput, id(12)] HRESULT EnumSorting( [in] StdSortSeqv SortSeq );
+		[id(13)] HRESULT KeyNth( [in]long Number, [out, retval]long* lKey );
+		[id(14)] HRESULT NameNth( [in]long Number, [out, retval]BSTR* bsName );
+		
+		[id(100)] HRESULT DetectRoot( [out,retval]long* pKey ); 
+	};
+	[
+		object,
+		uuid(3D09A443-9A18-11D4-9010-00504E02C39D),
+		dual,
+		helpstring("IIntCreator Interface"),
+		pointer_default(unique)
+	]
+	interface IIntCreator : IDispatch
+	{
+	  [id(1), restricted, hidden] HRESULT NewIFactorTable([in]BSTR Name, [out, retval] IFactorTable** FactorTable);
+	  [id(2), restricted, hidden] HRESULT NewIGostTable([in]BSTR Name, [out, retval] IGostTable** GostTable);
+	  [id(3), restricted, hidden] HRESULT NewICollGosts([in]BSTR Name, [in]IStorage* Stg, [out, retval]ICollGosts** pCollGosts);
+	  [id(4)] HRESULT FetchGostTable( [in]IStorage* StmRoot, [in]SAFEARRAY(BSTR)* Path, [in]long OFThrough, [in,optional]VARIANT* OFEnd, [in,optional]VARIANT* CreCached, [out,retval] IGostTable** pGT );
+	  [id(5)] HRESULT FetchFactorTable( [in]IStorage* StmRoot, [in]SAFEARRAY(BSTR)* Path, [in]long OFThrough, [in,optional]VARIANT* OFEnd, [in,optional]VARIANT* CreCached, [out,retval] IFactorTable** pFT );
+	};
+	[
+		object,
+		uuid(2E0F6E03-A76B-11D4-9029-00504E02C39D),
+		dual,
+		helpstring("ICollFactors Interface"),
+		pointer_default(unique)
+	]
+	interface ICollFactors : IDispatch
+	{
+	    [propget, id(DISPID_NEWENUM), restricted, helpstring("property _NewEnum")] HRESULT _NewEnum([out, retval] LPUNKNOWN *pVal);
+		[id(DISPID_VALUE), helpstring("method Item")] HRESULT Item( [in]VARIANT* Key, [out, retval]ICollFTables **ppGT );
+		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+		[id(2), helpstring("method Add")] HRESULT Add( [in]BSTR strName, [out,retval]ICollFTables** ppGT );
+		[id(3), helpstring("method Remove. KeyOrObj: long, BSTR, IDispatch")] HRESULT Remove([in]VARIANT* KeyOrObj);
+		[propget, id(4), helpstring("property LongKey")] HRESULT LongKey([in]BSTR Name, [out,retval]long* plKey);
+		[propget, id(5), helpstring("property NameKey")] HRESULT NameKey([in]long Key, [in,optional,defaultvalue(0)]ICollFTables* Obj, [out,retval]BSTR* pbsName);
+		[propput, id(5), helpstring("property NameKey")] HRESULT NameKey([in]long Key, [in,optional,defaultvalue(0)]ICollFTables* Obj, [in]BSTR bsNewName);
+		[id(6)] HRESULT Clear();		
+		[id(8), helpstring("method Update. KeyOrObj: long, BSTR, IDispatch")] HRESULT Update( [in]VARIANT* KeyOrObj );		
+		[propget, id(9)] HRESULT CachedUpdates( [out,retval]VARIANT_BOOL* pbCached );		
+		//[propput, id(9)] HRESULT CachedUpdates( [in]VARIANT_BOOL pbCached );
+		[id(10)] HRESULT SetUpdateMode( [in]IStorage* Stm, [in]VARIANT_BOOL bMode );				
+		[id(11), helpstring("Number: 1..Count")] HRESULT ItemNth( [in]long Number, [out, retval]ICollFTables **ppGT );
+		[propget, id(12)] HRESULT EnumSorting( [out,retval] StdSortSeqv* pSortSeq );
+		[propput, id(12)] HRESULT EnumSorting( [in] StdSortSeqv SortSeq );
+		[id(13)] HRESULT KeyNth( [in]long Number, [out, retval]long* lKey );
+		[id(14)] HRESULT NameNth( [in]long Number, [out, retval]BSTR* bsName );
+	};
+
+[
+	uuid(F39A15D1-9890-11D4-900E-00504E02C39D),
+	version(1.0),
+	helpstring("AWPlugin 1.0 Type Library")
+]
+library AWPLUGINLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+    interface IStCollItem;
+	interface ICollGosts;
+	
+	/*[
+		uuid(F39A15E2-9890-11D4-900E-00504E02C39D),
+		helpstring("GostTable Class")
+	]
+	coclass GostTable
+	{
+		[default] interface IGostTable;
+	};*/
+
+	/*[
+		uuid(F39A15E4-9890-11D4-900E-00504E02C39D),
+		helpstring("CollGosts Class")
+	]
+	coclass CollGosts
+	{
+		[default] interface ICollGosts;
+	};*/
+
+	[
+		uuid(F39A15E6-9890-11D4-900E-00504E02C39D),
+		helpstring("CollTopics Class")
+	]
+	coclass CollTopics
+	{
+		[default] interface ICollTopics;
+		interface IStCollItem;
+		interface ISupportErrorInfo;
+		interface IPersistStorage;
+		interface IPersist;
+	};	
+
+		
+	/*[
+		uuid(F39A15E8-9890-11D4-900E-00504E02C39D),
+		helpstring("Topic Class")
+	]
+	coclass Topic
+	{
+		[default] interface ITopic;
+	};*/
+
+	/*[
+		uuid(F39A15EB-9890-11D4-900E-00504E02C39D),
+		helpstring("FactorTable Class")
+	]
+	coclass FactorTable
+	{
+		[default] interface IFactorTable;
+	};*/
+
+	[
+		uuid(F39A15ED-9890-11D4-900E-00504E02C39D),
+		helpstring("CollFTables Class")
+	]
+	coclass CollFTables
+	{
+		[default] interface ICollFTables;
+		interface IStCollItem;
+		interface ISupportErrorInfo;
+		interface IPersistStorage;
+		interface IPersist;
+	};
+	[
+		uuid(3D09A444-9A18-11D4-9010-00504E02C39D),
+		helpstring("IntCreator Class"),
+		appobject
+	]
+	coclass IntCreator
+	{
+		[default] interface IIntCreator;
+		interface ISupportErrorInfo;
+	};
+	[
+		uuid(2E0F6E04-A76B-11D4-9029-00504E02C39D),
+		helpstring("CollFactors Class")
+	]
+	coclass CollFactors
+	{
+		[default] interface ICollFactors;
+		interface IStCollItem;
+		interface ISupportErrorInfo;
+		interface IPersistStorage;
+		interface IPersist;
+	};
+			
+};

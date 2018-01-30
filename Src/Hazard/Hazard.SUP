@@ -1,0 +1,9 @@
+//SUPPRESSIONPROJ:Hazard
+//VERSION:5.00
+//ENABLE:Yes
+!include comdlg32.sup
+!include mfc40.sup
+!include mfc42.sup
+!include msvbvm60.sup
+!include vb6speed.sup
+

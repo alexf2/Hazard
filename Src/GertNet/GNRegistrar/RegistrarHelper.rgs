@@ -1,0 +1,26 @@
+HKCR
+{
+	GNRegistrar.RegistrarHelper.1 = s 'RegistrarHelper Class'
+	{
+		CLSID = s '{56955A42-B40D-11D4-905F-00504E02C39D}'
+	}
+	GNRegistrar.RegistrarHelper = s 'RegistrarHelper Class'
+	{
+		CLSID = s '{56955A42-B40D-11D4-905F-00504E02C39D}'
+		CurVer = s 'GNRegistrar.RegistrarHelper.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {56955A42-B40D-11D4-905F-00504E02C39D} = s 'RegistrarHelper Class'
+		{
+			ProgID = s 'GNRegistrar.RegistrarHelper.1'
+			VersionIndependentProgID = s 'GNRegistrar.RegistrarHelper'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{56955A33-B40D-11D4-905F-00504E02C39D}'
+		}
+	}
+}

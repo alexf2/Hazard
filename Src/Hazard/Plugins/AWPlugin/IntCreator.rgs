@@ -1,0 +1,26 @@
+HKCR
+{
+	AWPlugin.IntCreator.1 = s 'IntCreator Class'
+	{
+		CLSID = s '{3D09A444-9A18-11D4-9010-00504E02C39D}'
+	}
+	AWPlugin.IntCreator = s 'IntCreator Class'
+	{
+		CLSID = s '{3D09A444-9A18-11D4-9010-00504E02C39D}'
+		CurVer = s 'AWPlugin.IntCreator.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {3D09A444-9A18-11D4-9010-00504E02C39D} = s 'IntCreator Class'
+		{
+			ProgID = s 'AWPlugin.IntCreator.1'
+			VersionIndependentProgID = s 'AWPlugin.IntCreator'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{F39A15D1-9890-11D4-900E-00504E02C39D}'
+		}
+	}
+}

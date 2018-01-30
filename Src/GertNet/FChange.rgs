@@ -1,0 +1,26 @@
+HKCR
+{
+	GertNet.FChange.1 = s 'FChange Class'
+	{
+		CLSID = s '{0482EBD5-15F5-11D4-8EFD-00504E02C39D}'
+	}
+	GertNet.FChange = s 'FChange Class'
+	{
+		CLSID = s '{0482EBD5-15F5-11D4-8EFD-00504E02C39D}'
+		CurVer = s 'GertNet.FChange.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {0482EBD5-15F5-11D4-8EFD-00504E02C39D} = s 'FChange Class'
+		{
+			ProgID = s 'GertNet.FChange.1'
+			VersionIndependentProgID = s 'GertNet.FChange'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{86822101-0876-11D4-8EE4-00504E02C39D}'
+		}
+	}
+}

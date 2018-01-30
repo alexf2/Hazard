@@ -1,0 +1,685 @@
+
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//  IIIIIII SSSSSS                                                            //
+//    II    SS                          InstallShield (R)                     //
+//    II    SSSSSS      (c) 1996-1997, InstallShield Software Corporation     //
+//    II        SS      (c) 1990-1996, InstallShield Corporation              //
+//  IIIIIII SSSSSS                     All Rights Reserved.                   //
+//                                                                            //
+//                                                                            //
+//  This code is generated as a starting installation template.  You should   //
+//  modify it to provide all necessary steps for your installation.           //
+//                                                                            //
+//                                                                            //
+//    File Name:  setup.rul                                                   //
+//                                                                            //
+//  Description:  InstallShield Script                                        //
+//                                                                            //
+//     Comments:  This template script performs a basic installation to a     //
+//                Windows 95 or Windows NT platform. With minor modifications,//
+//                this template can be adapted to create new, customized      //
+//                installations.                                              //
+//                                                                            //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+
+
+  // Include header file
+#include "sddialog.h"
+#include "winsub.h"
+
+//////////////////// string defines ///////////////////
+
+#define UNINST_LOGFILE_NAME      "Uninst.isu"
+
+//////////////////// installation declarations ///////////////////
+
+  // ----- DLL prototypes -----
+
+     // generated
+
+     // your DLL prototypes
+
+
+  // ---- script prototypes -----
+
+     // generated
+     prototype ShowDialogs();
+     prototype MoveFileData();
+     prototype HandleMoveDataError( NUMBER );
+     prototype ProcessBeforeDataMove();
+     prototype ProcessAfterDataMove();
+     prototype SetupRegistry();
+     prototype SetupFolders();
+     prototype CleanUpInstall();
+     prototype SetupInstall();
+     prototype SetupScreen();
+     prototype CheckRequirements();
+     prototype DialogShowSdAskDestPath();
+     prototype DialogShowSdSelectFolder();
+     prototype DialogShowSdStartCopy();
+     prototype DialogShowSdFinishReboot();
+
+     // your prototypes
+
+     prototype CreMyFolder();
+
+  // ----- global variables ------
+
+     // generated
+     BOOL        bWinNT, bIsShellExplorer;
+     STRING      svDir;
+     STRING      svName, svCompany, svSerial;
+     STRING      svDefGroup;
+     STRING      szAppPath;
+     STRING      svSetupType;
+     LIST        listStartCopy;
+
+
+     // your global variables
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+//   MAIN PROGRAM                                                            //
+//                                                                           //
+//      The installation begins here by staring out by hiding the visible    //
+//      installation window.  This is done to allow all the titles, images   //
+//      etc.. to be setup before showing the main window.  The following     //
+//      logic then performs the installation in a series of steps.           //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+program
+    Disable( BACKGROUND );
+
+    SetupInstall();
+
+    SetupScreen();
+
+    if (ShowDialogs()<0) goto end_install;
+
+    if (ProcessBeforeDataMove()<0) goto end_install;
+
+    if (MoveFileData()<0) goto end_install;
+
+    if (ProcessAfterDataMove()<0) goto end_install;
+
+    if (SetupRegistry()<0) goto end_install;
+
+    if (SetupFolders()<0) goto end_install;
+
+    if (CleanUpInstall()<0) goto end_install;
+
+  end_install:
+
+    exit;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ShowDialogs                                                    //
+//                                                                           //
+//  Purpose:  This function manages the operation of showing and navigating  //
+//            the standard dialogs that exist in a installation.             //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function ShowDialogs()
+    NUMBER  nResult;
+ begin
+
+    Dlg_Start:
+        // beginning of dialogs label
+
+    Dlg_SdAskDestPath:
+        nResult = DialogShowSdAskDestPath();
+        if (nResult = BACK) goto Dlg_Start;
+
+    Dlg_SdSelectFolder:
+        nResult = DialogShowSdSelectFolder();
+        if (nResult = BACK) goto Dlg_SdAskDestPath;
+
+    Dlg_SdStartCopy:
+        nResult = DialogShowSdStartCopy();
+        if (nResult = BACK) goto Dlg_SdSelectFolder;
+
+    return 0;
+
+ end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  MoveFileData                                                   //
+//                                                                           //
+//  Purpose:  This function will setup and handle the data movement for      //
+//            the installation.                                              //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function MoveFileData()
+  NUMBER nResult, nDisk;
+ begin
+
+  nDisk = 1;
+  SetStatusWindow( 0, "" );
+  Disable( DIALOGCACHE );
+  Enable( STATUS );
+  StatusUpdate( ON, 100 );
+  nResult = ComponentMoveData( MEDIA, nDisk, 0 );
+
+  HandleMoveDataError( nResult );
+
+  Disable( STATUS );
+
+  return nResult;
+
+ end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: HandleMoveDataError                                             //
+//                                                                           //
+//  Purpose: This will handle the error (if any) during the move data        //
+//           operation.                                                      //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function HandleMoveDataError( nResult )
+ begin
+
+  switch (nResult)
+  case 0:
+       return 0;
+  default:
+       SprintfBox( WARNING, @TITLE_CAPTIONBAR, @ERROR_MOVEDATA, nResult );
+       return nResult;
+  endswitch;
+
+ end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: ProcessAfterDataMove                                            //
+//                                                                           //
+//  Purpose: This will perform any necessary operations needed after all     //
+//           data has been moved.                                            //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function ProcessAfterDataMove()
+ begin
+
+  // TODO : update self-registered files and other processes that
+  //        should be perform after the data has been moved.
+
+  return 0;
+ end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: ProcessBeforeDataMove                                           //
+//                                                                           //
+//  Purpose: This will perform any necessary operations prior to the         //
+//           actual data move operation.                                     //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function ProcessBeforeDataMove()
+  STRING svLogFile;
+ begin
+
+  // TODO : update any items you want to process before moving the data
+  //
+
+  InstallationInfo( @COMPANY_NAME, @PRODUCT_NAME, @PRODUCT_VERSION, @PRODUCT_KEY );
+
+  svLogFile = UNINST_LOGFILE_NAME;
+  DeinstallStart( svDir, svLogFile, @UNINST_KEY, 0 );
+
+  RegDBSetItem( REGDB_APPPATH, szAppPath );
+  RegDBSetItem( REGDB_APPPATH_DEFAULT, szAppPath ^ @PRODUCT_KEY );
+  RegDBSetItem( REGDB_UNINSTALL_NAME, @UNINST_DISPLAY_NAME );
+
+  return 0;
+ end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: SetupRegistry                                                   //
+//                                                                           //
+//  Purpose: This will setup the registry entries for this installation.     //
+//                                                                           //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function SetupRegistry()
+ STRING svTmpPath;
+ begin
+
+  //vsView lic
+  RegDBSetDefaultRoot( HKEY_CLASSES_ROOT );
+  if( RegDBCreateKeyEx("Licenses\\C4541CC0-C4E4-11D2-8939-0000C0648DCF", "") < 0 ) then
+     MessageBox( "Cann't create license key 1", SEVERE );
+     //abort;
+    endif;
+   RegDBSetKeyValueEx( "Licenses\\C4541CC0-C4E4-11D2-8939-0000C0648DCF", "",
+                       REGDB_STRING, "", -1 );
+
+
+  //Sheridan
+  if( RegDBCreateKeyEx("Sheridan.ActiveThreed.ActiveX", "") < 0 ) then
+     MessageBox( "Cann't create license key 2", SEVERE );
+     //abort;
+    endif;
+   RegDBSetKeyValueEx( "Sheridan.ActiveThreed.ActiveX", "",
+                       REGDB_STRING, "", -1 );
+
+  if( RegDBCreateKeyEx("Sheridan.ActiveThreed.ActiveX\\Version2", "") < 0 ) then
+     MessageBox( "Cann't create key2", SEVERE );
+     //abort;
+    endif;
+  if( RegDBCreateKeyEx("Sheridan.ActiveThreed.ActiveX\\Version2\\CompanyName", "") < 0 ) then
+     MessageBox( "Cann't create key2", SEVERE );
+     //abort;
+    endif;
+  RegDBSetKeyValueEx( "Sheridan.ActiveThreed.ActiveX\\Version2\\CompanyName", "",
+                       REGDB_STRING, "AlexCorp", -1 );
+  if( RegDBCreateKeyEx("Sheridan.ActiveThreed.ActiveX\\Version2\\HelpFileDir", "") < 0 ) then
+     MessageBox( "Cann't create key2", SEVERE );
+     //abort;
+    endif;
+  svTmpPath = TARGETDIR ^ "Sheridan\\HELP";
+  LongPathToQuote( svTmpPath , TRUE );
+  RegDBSetKeyValueEx( "Sheridan.ActiveThreed.ActiveX\\Version2\\HelpFileDir", "",
+                       REGDB_STRING, svTmpPath, -1 );
+  if( RegDBCreateKeyEx("Sheridan.ActiveThreed.ActiveX\\Version2\\InstallDir", "") < 0 ) then
+     MessageBox( "Cann't create key2", SEVERE );
+     //abort;
+    endif;
+  svTmpPath = TARGETDIR ^ "Sheridan";
+  LongPathToQuote( svTmpPath , TRUE );
+  RegDBSetKeyValueEx( "Sheridan.ActiveThreed.ActiveX\\Version2\\InstallDir", "",
+                       REGDB_STRING, svTmpPath, -1 );
+  if( RegDBCreateKeyEx("Sheridan.ActiveThreed.ActiveX\\Version2\\SerialNumber", "") < 0 ) then
+     MessageBox( "Cann't create key2", SEVERE );
+     //abort;
+    endif;
+  RegDBSetKeyValueEx( "Sheridan.ActiveThreed.ActiveX\\Version2\\SerialNumber", "",
+                       REGDB_STRING, "012001A00007575363", -1 );
+  if( RegDBCreateKeyEx("Sheridan.ActiveThreed.ActiveX\\Version2\\UserName", "") < 0 ) then
+     MessageBox( "Cann't create key2", SEVERE );
+     //abort;
+    endif;
+  RegDBSetKeyValueEx( "Sheridan.ActiveThreed.ActiveX\\Version2\\UserName", "",
+                       REGDB_STRING, "Alex", -1 );
+
+
+  //GreenTree reg
+  RegDBSetDefaultRoot( HKEY_LOCAL_MACHINE );
+  if( RegDBCreateKeyEx("SOFTWARE\\Classes\\GreenTree_ActiveControlPak", "") < 0 ) then
+     MessageBox( "Cann't create key3", SEVERE );
+     //abort;
+    endif;
+  if( RegDBCreateKeyEx("SOFTWARE\\Classes\\GreenTree_ActiveControlPak\\Version_1", "") < 0 ) then
+     MessageBox( "Cann't create key3", SEVERE );
+     //abort;
+    endif;
+  if( RegDBCreateKeyEx("SOFTWARE\\Classes\\GreenTree_ActiveControlPak\\Version_1\\Company", "") < 0 ) then
+     MessageBox( "Cann't create key3", SEVERE );
+     //abort;
+    endif;
+  RegDBSetKeyValueEx( "SOFTWARE\\Classes\\GreenTree_ActiveControlPak\\Version_1\\Company", "",
+                       REGDB_STRING, "AlexCorp", -1 );
+  if( RegDBCreateKeyEx("SOFTWARE\\Classes\\GreenTree_ActiveControlPak\\Version_1\\MainPath", "") < 0 ) then
+     MessageBox( "Cann't create key3", SEVERE );
+     //abort;
+    endif;
+  svTmpPath = TARGETDIR ^ "GT";
+  LongPathToQuote( svTmpPath , TRUE );
+  RegDBSetKeyValueEx( "SOFTWARE\\Classes\\GreenTree_ActiveControlPak\\Version_1\\MainPath", "",
+                       REGDB_STRING, svTmpPath, -1 );
+  if( RegDBCreateKeyEx("SOFTWARE\\Classes\\GreenTree_ActiveControlPak\\Version_1\\Name", "") < 0 ) then
+     MessageBox( "Cann't create key3", SEVERE );
+     //abort;
+    endif;
+  RegDBSetKeyValueEx( "SOFTWARE\\Classes\\GreenTree_ActiveControlPak\\Version_1\\Name", "",
+                       REGDB_STRING, "Alex", -1 );
+  if( RegDBCreateKeyEx("SOFTWARE\\Classes\\GreenTree_ActiveControlPak\\Version_1\\SerialNumber", "") < 0 ) then
+     MessageBox( "Cann't create key3", SEVERE );
+     //abort;
+    endif;
+  RegDBSetKeyValueEx( "SOFTWARE\\Classes\\GreenTree_ActiveControlPak\\Version_1\\SerialNumber", "",
+                       REGDB_STRING, "621001109444", -1 );
+
+  RegDBSetDefaultRoot( HKEY_CLASSES_ROOT );
+
+  return 0;
+ end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: SetupFolders                                                    //
+//                                                                           //
+//  Purpose: This function will setup all the folders and shortcuts for the  //
+//           installation.  This includes program groups, items for Win31    //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function SetupFolders()
+  STRING svPath, strTmp2;
+  NUMBER nResult;
+ begin
+
+
+  // TODO : Add all your folder (program group) along with shortcuts (program items)
+  //
+  //
+  //    AddFolderGroup....
+  //
+  svPath = TARGETDIR ^ "EXE\\hazard.exe";
+  strTmp2 = TARGETDIR ^ "EXE\\";
+  LongPathToQuote( svPath , TRUE );
+  //LongPathToQuote( strTmp2, TRUE );
+
+  nResult = AddFolderIcon( "", "Hazard 2000" , svPath , strTmp2 , "" , 0 , "" , REPLACE );
+  if( nResult < 0 ) then
+     MessageBox( "Cann't insert icon in menu Start", WARNING );
+  endif;
+
+  if( MessageBox("Создать иконку на столе ?", 4|0x20) == 6 )
+  then
+      nResult = AddFolderIcon( FOLDER_DESKTOP, "Hazard 2000" , svPath , strTmp2, "" , 0 , "" , REPLACE );
+
+      if( nResult < 0 ) then
+        MessageBox( "Error of creating shortcut on desktop", WARNING );
+      endif;
+  endif;
+
+  if( MessageBox("Создать папку на столе ?", 4|0x20) == 6 )
+  then
+    nResult = CreMyFolder();
+    if( nResult < 0 ) then
+      MessageBox( "Error creating of folder", WARNING );
+    endif;
+  endif;
+
+
+  return 0;
+
+ end;
+
+function CreMyFolder()
+   STRING szProgram, szFolderDir, szCommandLine, szProgramFolder;
+   STRING szWorkingDir, szIconPath, szShortCutKey, szItemName;
+   NUMBER  nIcon, nFlag, nResult;
+ begin
+   szItemName = "Hazard 2000";
+   szFolderDir = FOLDER_DESKTOP ^ svDefGroup;
+   nResult = CreateDir( szFolderDir );
+   if( nResult < 0 ) goto end_Err;
+
+   szCommandLine = TARGETDIR ^ "EXE\\hazard.exe";
+   LongPathToQuote( szCommandLine, TRUE );
+
+   szWorkingDir  = TARGETDIR ^ "EXE\\";
+   szIconPath    = "";
+   nIcon         = 0;
+   szShortCutKey = "";
+   //nFlag         = REPLACE|RUN_MINIMIZED;
+   nFlag         = REPLACE;
+
+   nResult = AddFolderIcon( szFolderDir, szItemName, szCommandLine,
+                            szWorkingDir, szIconPath, nIcon, szShortCutKey,
+                            nFlag );
+   //nResult = CreateProgramFolder( szItemName );
+   if( nResult < 0 ) goto end_Err;
+
+   ShowProgramFolder( szFolderDir, SW_SHOW );
+
+   szProgramFolder = szFolderDir;
+   szItemName = "Пример модели";
+
+   szProgram = TARGETDIR ^ "Examples\\" ^ "default.hzd";
+   LongPathToQuote( szProgram, TRUE );
+
+   szCommandLine = szProgram;
+   szWorkingDir  = "";
+   szIconPath    = "";
+
+   nResult = AddFolderIcon( szProgramFolder, szItemName, szCommandLine,
+                            "" , "" , 0 , "",
+                            REPLACE );
+   if( nResult < 0 ) goto end_Err;
+
+   Delay( 1 );
+   ShowProgramFolder( szFolderDir, SW_MINIMIZE );
+   SetWindowPos( GetWindowHandle(HWND_INSTALL), 0, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE );
+   _WinSubFocusWindow( GetWindowHandle(HWND_INSTALL) );
+
+   return 0;
+end_Err:
+   return nResult;
+ end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: CleanUpInstall                                                  //
+//                                                                           //
+//  Purpose: This will cleanup the installation.  Anything that should       //
+//           be released or delete at the end of the installation should     //
+//           be done here.                                                   //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function CleanUpInstall()
+ begin
+
+  DialogShowSdFinishReboot();
+
+  if (BATCH_INSTALL) then // ensure locked files are properly written
+     CommitSharedFiles(0);
+  endif;
+
+  return 0;
+ end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: SetupInstall                                                    //
+//                                                                           //
+//  Purpose: This will setup the installation.  Any general initialization   //
+//           needed for the installation should be performed here.           //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function SetupInstall()
+ begin
+
+  Enable( CORECOMPONENTHANDLING );
+
+  listStartCopy = ListCreate(0);
+
+  svDir     = PROGRAMFILES ^ @COMPANY_NAME;
+  TARGETDIR = svDir;
+  szAppPath = svDir;
+
+  SdProductName( @PRODUCT_NAME );
+
+  Enable( DIALOGCACHE );
+
+  return 0;
+ end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SetupScreen                                                    //
+//                                                                           //
+//  Purpose:  This function will set up the screen look.  This includes      //
+//            colors, fonts, text to be displayed, etc.                      //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function SetupScreen()
+  NUMBER  nDx, nDy;
+ begin
+   GetExtents( nDx, nDy );
+
+   Enable( FULLWINDOWMODE );
+   SetTitle( @TITLE_MAIN, 24, WHITE );
+
+   SetTitle( @TITLE_CAPTIONBAR, 0, BACKGROUNDCAPTION ); // Caption bar text.
+
+   Enable( BACKGROUND );
+
+   Delay( 1 );
+ end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  CheckRequirements                                              //
+//                                                                           //
+//  Purpose:  This function will check all minimum requirements for the      //
+//            application being installed.  If any fail, then the user       //
+//            is informed and the installation is terminated.                //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function CheckRequirements()
+   NUMBER  nvDx, nvDy, nvResult;
+   STRING  svResult;
+
+begin
+   // Check screen resolution.
+   GetExtents( nvDx, nvDy );
+
+   if (nvDy < 480) then
+      MessageBox( @ERROR_VGARESOLUTION, WARNING );
+      abort;
+   endif;
+
+   // Determine the target system's operating system.
+   GetSystemInfo( OS, nvResult, svResult );
+
+   bWinNT           = FALSE;
+   bIsShellExplorer = FALSE;
+
+   if (nvResult =  IS_WINDOWSNT) then
+      bWinNT = TRUE;                   // Running Windows NT.
+      // Check to see if the shell being used is EXPLORER shell.
+      if (( nvResult = IS_WINDOWSNT ) || ( nvResult = IS_WINDOWS95 )) then
+         if (GetSystemInfo( OSMAJOR, nvResult, svResult ) = 0) then
+            if (nvResult >= 4) then
+               bIsShellExplorer = TRUE;
+            endif;
+         endif;
+      endif;
+
+   elseif (nvResult = IS_WINDOWS95 ) then
+      bIsShellExplorer = TRUE;
+
+   endif;
+
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: DialogShowSdAskDestPath                                         //
+//                                                                           //
+//  Purpose: This function will handle the query of the user for the         //
+//           destination directory.                                          //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowSdAskDestPath()
+  NUMBER nResult;
+  STRING szTitle, szMsg;
+ begin
+
+  szTitle = "";
+  szMsg   = "";
+  nResult = SdAskDestPath( szTitle, szMsg, svDir, 0 );
+
+  TARGETDIR = svDir;
+
+  return nResult;
+ end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: DialogShowSdSelectFolder                                        //
+//                                                                           //
+//  Purpose: This function will handle the standard folder selection dialog. //
+//                                                                           //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowSdSelectFolder()
+  NUMBER nResult;
+  STRING szTitle, szMsg;
+ begin
+
+  if (svDefGroup = "") then
+      svDefGroup = @FOLDER_NAME;
+  endif;
+
+  szTitle    = "";
+  szMsg      = "";
+  nResult    = SdSelectFolder( szTitle, szMsg, svDefGroup );
+
+  return nResult;
+ end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: DialogShowSdStartCopy                                           //
+//                                                                           //
+//  Purpose: This function will handle the dialog preceding the start of the //
+//           file copying process.                                           //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowSdStartCopy()
+  NUMBER nResult;
+  STRING szTitle, szMsg;
+ begin
+
+  listStartCopy = ListCreate( STRINGLIST );
+  ListAddString( listStartCopy, "Place the summary here.", TRUE );
+  szTitle = "";
+  szMsg   = "";
+  nResult = SdStartCopy( szTitle, szMsg, listStartCopy );
+
+  return nResult;
+ end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: DialogShowSdFinishReboot                                        //
+//                                                                           //
+//  Purpose: This function will show the last dialog of the product.         //
+//           It will allow the user to reboot and/or show some readme text.  //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowSdFinishReboot()
+  NUMBER nResult, nDefOptions;
+  STRING szTitle, szMsg1, szMsg2, szOption1, szOption2;
+  NUMBER bOpt1, bOpt2;
+ begin
+
+  if (!BATCH_INSTALL) then
+     bOpt1 = FALSE;
+     bOpt2 = FALSE;
+     szMsg1 = "";
+     szMsg2 = "";
+     szOption1 = "";
+     szOption2 = "";
+     nResult = SdFinish( szTitle, szMsg1, szMsg2, szOption1, szOption2, bOpt1, bOpt2 );
+     return 0;
+  endif;
+
+  nDefOptions = SYS_BOOTMACHINE;
+  szTitle     = "";
+  szMsg1      = "";
+  szMsg2      = "";
+  nResult     = SdFinishReboot( szTitle, szMsg1, nDefOptions, szMsg2, 0 );
+
+  return nResult;
+ end;
+
+ // --- include script file section ---
+
+#include "sddialog.rul"
+#include "winsub.rul"
+
+

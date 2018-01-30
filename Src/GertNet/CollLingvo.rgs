@@ -1,0 +1,26 @@
+HKCR
+{
+	GertNet.CollLingvo.1 = s 'CollLingvo Class'
+	{
+		CLSID = s '{86822116-0876-11D4-8EE4-00504E02C39D}'
+	}
+	GertNet.CollLingvo = s 'CollLingvo Class'
+	{
+		CLSID = s '{86822116-0876-11D4-8EE4-00504E02C39D}'
+		CurVer = s 'GertNet.CollLingvo.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {86822116-0876-11D4-8EE4-00504E02C39D} = s 'CollLingvo Class'
+		{
+			ProgID = s 'GertNet.CollLingvo.1'
+			VersionIndependentProgID = s 'GertNet.CollLingvo'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{86822101-0876-11D4-8EE4-00504E02C39D}'
+		}
+	}
+}

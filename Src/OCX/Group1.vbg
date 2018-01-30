@@ -1,0 +1,6 @@
+VBGROUP 5.0
+StartupProject=Test_OCX.vbp
+Project=Xtimers.vbp
+Project=GNControls.vbp
+Project=FacEditLib.vbp
+Project=AlexOCX.vbp

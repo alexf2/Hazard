@@ -1,0 +1,41 @@
+// GNRegistrar.idl : IDL source for GNRegistrar.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (GNRegistrar.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(56955A41-B40D-11D4-905F-00504E02C39D),
+		dual,
+		helpstring("IRegistrarHelper Interface"),
+		pointer_default(unique)
+	]
+	interface IRegistrarHelper : IDispatch
+	{
+		[id(1), helpstring("method Register")] HRESULT Register([in] BSTR ObjName, [in] BSTR Path, [in] short RegFlag, [in] short TypeLibFlag, [in] BSTR PathHelp );
+		[propget, id(2), helpstring("property Hresult")] HRESULT Hresult([out, retval] long *pVal);
+		[propget, id(3), helpstring("property LastError")] HRESULT LastError([out, retval] BSTR *pVal);
+	};
+
+[
+	uuid(56955A33-B40D-11D4-905F-00504E02C39D),
+	version(1.0),
+	helpstring("GNRegistrar 1.0 Type Library")
+]
+library GNREGISTRARLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(56955A42-B40D-11D4-905F-00504E02C39D),
+		helpstring("RegistrarHelper Class")
+	]
+	coclass RegistrarHelper
+	{
+		[default] interface IRegistrarHelper;
+	};
+};

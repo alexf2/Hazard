@@ -1,0 +1,26 @@
+HKCR
+{
+	AWPlugin.FactorTable.1 = s 'FactorTable Class'
+	{
+		CLSID = s '{F39A15EB-9890-11D4-900E-00504E02C39D}'
+	}
+	AWPlugin.FactorTable = s 'FactorTable Class'
+	{
+		CLSID = s '{F39A15EB-9890-11D4-900E-00504E02C39D}'
+		CurVer = s 'AWPlugin.FactorTable.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {F39A15EB-9890-11D4-900E-00504E02C39D} = s 'FactorTable Class'
+		{
+			ProgID = s 'AWPlugin.FactorTable.1'
+			VersionIndependentProgID = s 'AWPlugin.FactorTable'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{F39A15D1-9890-11D4-900E-00504E02C39D}'
+		}
+	}
+}

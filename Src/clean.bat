@@ -1,0 +1,12 @@
+erase /s  Alexf\*.bak
+erase /s  Alexf\*.obj
+erase /s  Alexf\*.pch
+erase /s  Alexf\*.csm
+erase /s  Alexf\*.pdb
+erase /s  Alexf\*.log
+erase /s  Alexf\*.tmp
+erase /s  Alexf\*.exp
+erase /s  Alexf\*.lib
+erase /s  Alexf\*.ncb
+erase /s  Alexf\*.aps
+erase /s  Alexf\*.oca

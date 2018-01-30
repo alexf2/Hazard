@@ -1,0 +1,102 @@
+// AnglFont.idl : IDL source for AnglFont.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (AnglFont.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+
+
+typedef [public, uuid(E8E20C91-24DB-11d4-8F16-00504E02C39D)] enum  {
+  DS_Font    = 1,
+  DS_Angle   = 2,
+  DS_hFont   = 3,
+  DS_Bold    = 7
+} IAngledFontDISPIDS;	
+
+	[
+		object,
+		uuid(5F9FAD0F-24D9-11D4-8F16-00504E02C39D),
+		dual,
+		helpstring("IAngledFont Interface"),
+		pointer_default(unique)
+	]
+	interface IAngledFont : IDispatch
+	{
+		[propget, id(1), helpstring("property Font")] HRESULT Font([out, retval] IDispatch* *pVal);
+		[propputref, id(1), helpstring("property Font")] HRESULT Font([in] IDispatch* newVal);
+		[propput, id(1), helpstring("property Font2")] HRESULT Font([in] IDispatch* newVal);
+		[propget, id(2), helpstring("property Angle")] HRESULT Angle([out, retval] long *pVal);
+		[propput, id(2), helpstring("property Angle")] HRESULT Angle([in] long newVal);
+		[propget, id(3), helpstring("property hFont")] HRESULT hFont([out, retval] long *pVal);		
+		[propget, id(5), helpstring("property FHeight")] HRESULT FHeight([out, retval] long *pVal);
+		[id(6), helpstring("method CalcExtent")] HRESULT CalcExtent([in] BSTR bs, [out]long* pX, [out]long* pY);
+		[propget, id(7), helpstring("property Bold")] HRESULT Bold([out, retval] VARIANT_BOOL *pVal);
+		[propput, id(7), helpstring("property Bold")] HRESULT Bold([in] VARIANT_BOOL newVal);
+	};
+	
+	/*[
+		object,
+		uuid(AABF7243-28A2-11D4-8F1B-00504E02C39D),
+		dual,
+		helpstring("IFacEditSink Interface"),
+		pointer_default(unique)
+	]
+	interface IFacEditSink : IDispatch
+	{
+		[id(1), helpstring("method Add")] HRESULT Add([in]IDispatch* pF);
+		[id(2), helpstring("method Remove")] HRESULT Remove([in]IDispatch* pF);
+		[id(3), helpstring("method RemoveAll")] HRESULT RemoveAll();
+	};*/
+
+[
+	uuid(5F9FAD01-24D9-11D4-8F16-00504E02C39D),
+	version(1.0),
+	helpstring("AnglFont 1.0 Type Library")
+]
+library ANGLFONTLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+	//importlib("g:\work\mag\alexf\ocx\FacEditLib.ocx");
+
+	[
+		uuid(5F9FAD11-24D9-11D4-8F16-00504E02C39D),
+		helpstring("_IAngledFontEvents Interface")
+	]
+	dispinterface _IAngledFontEvents
+	{
+		properties:
+		methods:
+		[id(1), helpstring("method Changed")] HRESULT Changed([in]DISPID id);
+	};
+	
+	[
+		uuid(5F9FAD10-24D9-11D4-8F16-00504E02C39D),
+		helpstring("AngledFont Class")
+	]
+	coclass AngledFont
+	{
+		[default] interface IAngledFont;
+		[default, source] dispinterface _IAngledFontEvents;		
+		interface IPersist;
+		interface ISupportErrorInfo;
+		interface IConnectionPointContainer;
+		interface IPersistStreamInit;
+	};	
+	
+
+
+	/*[
+		uuid(AABF7244-28A2-11D4-8F1B-00504E02C39D),
+		helpstring("FacEditSink Class")
+	]
+	coclass FacEditSink
+	{
+		[default] interface IFacEditSink;
+		//interface __FacEdit;
+		[default, source] dispinterface __FacEdit;
+	};*/
+};

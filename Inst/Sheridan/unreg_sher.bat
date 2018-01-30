@@ -1,0 +1,1 @@
+regsvr32.exe /u splitter.ocx threed20.ocx 

@@ -1,0 +1,6 @@
+LIBRARY FontInstaller
+DESCRIPTION "FontInstaller Lib"
+EXPORTS 
+	InstallFonts		@1    
+	LastFIError			@2
+	PatchExample        @3 
