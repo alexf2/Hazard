@@ -31,6 +31,7 @@ Hazard может быть использован клиентами OLE Automat
 Dim m_haApp As HazardApp
 Set m_haApp = CreateObject("Hazard.HazardApp")
 ```
+![Object model](./demo-img/object-model.png "Object model")
 Для уведомления клиентов о ходе асинхронных операций, HazardApp и MGertNet предоставляют точку соединения (connection point) для стока с интерфейсом ICallBack.
 Рассмотрим объекты, включаемые экземпляром приложения HazardApp.
 **GertNetMain** (только чтение) – модель развития происшествия. Если модели нет (не загружалась и не создавалась новая), то пустая (Nothing).
